@@ -146,7 +146,8 @@
                     "stats":    { "label": "Stats (big number / metric)" },
                     "profile":  { "label": "Profile (circular avatar, centered)" },
                     "split":    { "label": "Split (media left / text right)" },
-                    "gallery":  { "label": "Gallery (image front / avatar card back)" }
+                    "gallery":  { "label": "Gallery (image only front / avatar card back)" },
+                    "showcase": { "label": "Showcase (image top + caption panel / avatar card back)" }
                   }
                 }
               }

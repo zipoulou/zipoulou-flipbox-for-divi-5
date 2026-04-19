@@ -54,7 +54,8 @@ export type FlipboxPreset =
   | 'stats'
   | 'profile'
   | 'split'
-  | 'gallery';
+  | 'gallery'
+  | 'showcase';
 
 export interface FlipboxSettingsInner {
   trigger?: 'hover' | 'click' | 'auto';
