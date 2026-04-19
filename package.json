@@ -5,6 +5,14 @@
   "description": "Zipoulou FlipBox — a powerful flipbox module exclusively designed for Divi 5.",
   "author": "Nicolas Galzy",
   "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/zipoulou/zipoulou-flipbox-for-divi-5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zipoulou/zipoulou-flipbox-for-divi-5.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zipoulou/zipoulou-flipbox-for-divi-5/issues"
+  },
   "engines": {
     "npm": ">=10.0.0",
     "node": ">=18.0.0"

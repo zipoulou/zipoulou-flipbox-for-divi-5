@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name:       Zipoulou FlipBox for Divi 5
- * Plugin URI:        https://nicolasgalzy.fr
+ * Plugin URI:        https://github.com/zipoulou/zipoulou-flipbox-for-divi-5
  * Description:       Module FlipBox exclusivement conçu pour Divi 5.
  * Version:           0.7.0
  * Requires at least: 6.4
