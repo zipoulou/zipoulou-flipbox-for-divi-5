@@ -188,6 +188,87 @@
   }
 
   // ======================================================================
+  //  PRESET: GALLERY — full-bleed image front, avatar + text on dark back
+  //  (intended pairing: layout=mediaOnly on front, type=flip, direction=right)
+  // ======================================================================
+  &__inner[data-tmd-preset='gallery'] {
+    .tmd5_flipbox__front {
+      padding: 0;
+      background: #f5efe7;
+    }
+    .tmd5_flipbox__front-media {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .et-pb-icon {
+        font-size: clamp(48px, 10vmin, 96px);
+        width: auto;
+        height: auto;
+      }
+    }
+    .tmd5_flipbox__back {
+      background: #7a2222;
+      padding: 30px 24px;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    // Turn the back subtitle into a circular avatar chip.
+    .tmd5_flipbox__back-subtitle {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: none;
+      margin: 0 auto 16px;
+      opacity: 1;
+      padding: 0;
+    }
+    .tmd5_flipbox__back-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      margin: 0 0 12px;
+      color: #ffffff;
+    }
+    .tmd5_flipbox__back-content,
+    .tmd5_flipbox__back-content * {
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 13.5px;
+      line-height: 1.7;
+      margin: 0;
+    }
+    .tmd5_flipbox__back-button {
+      margin-top: 18px;
+      background: rgba(255, 255, 255, 0.95);
+      color: #7a2222;
+
+      &:hover,
+      &:focus {
+        color: #7a2222;
+        background: #ffffff;
+      }
+    }
+  }
+
+  // ======================================================================
   //  PRESET: SPLIT — grid 50/50, media left, text right (front only)
   // ======================================================================
   &__inner[data-tmd-preset='split'] {

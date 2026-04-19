@@ -145,7 +145,8 @@
                     "badge":    { "label": "Badge (colored icon square + accent)" },
                     "stats":    { "label": "Stats (big number / metric)" },
                     "profile":  { "label": "Profile (circular avatar, centered)" },
-                    "split":    { "label": "Split (media left / text right)" }
+                    "split":    { "label": "Split (media left / text right)" },
+                    "gallery":  { "label": "Gallery (image front / avatar card back)" }
                   }
                 }
               }
@@ -207,11 +208,12 @@
                 "name": "divi/select",
                 "props": {
                   "options": {
-                    "1/1":  { "label": "1 : 1 (Square)" },
-                    "4/3":  { "label": "4 : 3" },
-                    "3/2":  { "label": "3 : 2" },
-                    "16/9": { "label": "16 : 9 (Widescreen)" },
-                    "2/1":  { "label": "2 : 1" }
+                    "1/1":   { "label": "1 : 1 (Square)" },
+                    "10/11": { "label": "10 : 11 (Slightly Portrait)" },
+                    "4/3":   { "label": "4 : 3" },
+                    "3/2":   { "label": "3 : 2" },
+                    "16/9":  { "label": "16 : 9 (Widescreen)" },
+                    "2/1":   { "label": "2 : 1" }
                   }
                 }
               }

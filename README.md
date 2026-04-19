@@ -165,6 +165,7 @@ Each preset is a curated bundle of CSS overriding backgrounds, typography, icon 
 | `stats` | Huge gradient number as "title", kicker subtitle, centered | KPIs, impact metrics, counters |
 | `profile` | 120 px circular avatar, centered, name + role + bio | Team members, testimonials |
 | `split` | 50/50 grid — media left, text right (front only) | Portfolio, case studies |
+| `gallery` | Front image full-bleed; back = circular emoji chip + title + body on dark background | Product gallery, artisan showcase |
 
 ## Animation Catalog
 
@@ -400,6 +401,7 @@ Chaque preset est un pack CSS curé (backgrounds, typographie, forme de l'icône
 | `stats` | Grand chiffre dégradé en "titre", kicker en sous-titre, centré | KPIs, métriques d'impact, compteurs |
 | `profile` | Avatar circulaire 120 px, centré, nom + rôle + bio | Équipe, témoignages |
 | `split` | Grille 50/50 — media à gauche, texte à droite (face avant uniquement) | Portfolio, études de cas |
+| `gallery` | Image full-bleed à l'avant ; face arrière = chip emoji circulaire + titre + contenu sur fond sombre | Galerie produits, vitrine artisanale |
 
 ## Catalogue d'animations
 

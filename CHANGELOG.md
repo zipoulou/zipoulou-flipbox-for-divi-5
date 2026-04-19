@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.1] — 2026-04-20
+
+### Fixed
+- **SCSS mixin nesting bug** — `@tmd-flipped($type)` was emitting doubled selectors like `.tmd5_flipbox .tmd5_flipbox:hover .tmd5_flipbox__inner[...]` because it was `@included` inside the parent `.tmd5_flipbox { ... }` block, causing SCSS to prefix the mixin's selectors. Wrapped the mixin body in `@at-root` so the generated rules stay at root level. Now hover/click/auto trigger the flip transform correctly on all animation types.
+
+### Added
+- **New visual preset: `gallery`** — front shows only the image (`layout: mediaOnly` pairing), back reveals a circular emoji chip (built from `backSubtitle`) + title + description on a dark (#7a2222) card background. Intended for 3-column product / artisan showcases.
+- **New aspect ratio option: `10/11`** — slightly portrait (for near-square product cards).
+
+---
+
 ## [0.7.0] — 2026-04-20
 
 ### Added

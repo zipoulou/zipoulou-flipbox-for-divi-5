@@ -2,12 +2,17 @@
 
 // Helper mixin : content applied when the flipbox is "flipped" — either by hover
 // (trigger='hover'), by click (.is-flipped), or by auto (.is-flipped added via JS).
+// @at-root is critical: without it, when this mixin is @included inside
+// `.tmd5_flipbox { ... }`, SCSS would prefix the selectors and produce broken
+// `.tmd5_flipbox .tmd5_flipbox:hover ...` (requires two nested flipboxes).
 @mixin tmd-flipped($type) {
-  .tmd5_flipbox:hover .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
-  .tmd5_flipbox:focus-within .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
-  .tmd5_flipbox__inner[data-tmd-trigger='click'][data-tmd-type='#{$type}'].is-flipped,
-  .tmd5_flipbox__inner[data-tmd-trigger='auto'][data-tmd-type='#{$type}'].is-flipped {
-    @content;
+  @at-root {
+    .tmd5_flipbox:hover .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
+    .tmd5_flipbox:focus-within .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
+    .tmd5_flipbox__inner[data-tmd-trigger='click'][data-tmd-type='#{$type}'].is-flipped,
+    .tmd5_flipbox__inner[data-tmd-trigger='auto'][data-tmd-type='#{$type}'].is-flipped {
+      @content;
+    }
   }
 }
 

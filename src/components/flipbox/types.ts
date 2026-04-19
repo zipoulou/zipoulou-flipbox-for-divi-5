@@ -53,7 +53,8 @@ export type FlipboxPreset =
   | 'badge'
   | 'stats'
   | 'profile'
-  | 'split';
+  | 'split'
+  | 'gallery';
 
 export interface FlipboxSettingsInner {
   trigger?: 'hover' | 'click' | 'auto';
@@ -64,7 +65,7 @@ export interface FlipboxSettingsInner {
   preset?: FlipboxPreset;
   layout?: 'content' | 'textOnly' | 'mediaOnly' | 'imageCover';
   sizeMode?: 'minHeight' | 'aspect' | 'fixed';
-  aspectRatio?: '1/1' | '4/3' | '3/2' | '16/9' | '2/1';
+  aspectRatio?: '1/1' | '10/11' | '4/3' | '3/2' | '16/9' | '2/1';
   minHeight?: string;
   fixedHeight?: string;
 }

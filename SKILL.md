@@ -78,7 +78,7 @@ All attributes are optional. Defaults are applied both server-side (PHP render) 
 
 | subName | Values | Default | Purpose |
 |---|---|---|---|
-| `preset` | `classic` \| `minimal` \| `badge` \| `stats` \| `profile` \| `split` | `classic` | Curated visual bundle (backgrounds, typography, icon shape) |
+| `preset` | `classic` \| `minimal` \| `badge` \| `stats` \| `profile` \| `split` \| `gallery` | `classic` | Curated visual bundle (backgrounds, typography, icon shape) |
 | `trigger` | `hover` \| `click` \| `auto` | `hover` | How the flip is triggered |
 | `type` | `flip` \| `slide` \| `fade` \| `zoomIn` \| `zoomOut` \| `blur` | `flip` | Animation style |
 | `direction` | `right` \| `left` \| `up` \| `down` | `right` | Applies only to `flip` and `slide` |
@@ -86,7 +86,7 @@ All attributes are optional. Defaults are applied both server-side (PHP render) 
 | `autoInterval` | CSS time (`1s`-`20s`) | `4s` | Pause between auto flips — applies only when `trigger=auto` |
 | `layout` | `content` \| `textOnly` \| `mediaOnly` \| `imageCover` | `content` | Front-side structural layout |
 | `sizeMode` | `minHeight` \| `aspect` \| `fixed` | `minHeight` | How the tile height is determined |
-| `aspectRatio` | `1/1` \| `4/3` \| `3/2` \| `16/9` \| `2/1` | `4/3` | Applies only when `sizeMode=aspect` |
+| `aspectRatio` | `1/1` \| `10/11` \| `4/3` \| `3/2` \| `16/9` \| `2/1` | `4/3` | Applies only when `sizeMode=aspect` |
 | `minHeight` | CSS length (px) | `320px` | Applies only when `sizeMode=minHeight` |
 | `fixedHeight` | CSS length (px) | `320px` | Applies only when `sizeMode=fixed` |
 
@@ -213,6 +213,20 @@ Requires image in `frontMedia.src` (fills left half of the front).
 {"layout":"imageCover","type":"fade","sizeMode":"aspect","aspectRatio":"16/9","trigger":"hover"}
 ```
 Image becomes full-bleed background with dark gradient overlay; text in white at the bottom.
+
+### Product gallery — image front, emoji avatar + description back (Gallery preset)
+```json
+{
+  "preset":"gallery",
+  "layout":"mediaOnly",
+  "sizeMode":"aspect",
+  "aspectRatio":"10/11",
+  "type":"flip",
+  "direction":"right",
+  "duration":"800ms"
+}
+```
+Pair with `frontMedia.innerContent.desktop.value.src` for the image, `backSubtitle` for the emoji (becomes a 62 px circular chip), `backTitle` + `backContent` for the product name and description. Designed for 3-column product rows; dark red (#7a2222) back matches brand card patterns.
 
 ### Auto-rotating banner
 ```json
