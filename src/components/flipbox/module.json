@@ -78,6 +78,116 @@
                   "validUnits": ["ms"]
                 }
               }
+            },
+            "layout": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "layout",
+              "label": "Layout Mode",
+              "description": "Front-side layout. 'Image Cover' uses the image as full background with text overlay.",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 5,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "content":    { "label": "Icon/Image + Text" },
+                    "textOnly":   { "label": "Text Only" },
+                    "mediaOnly":  { "label": "Media Only" },
+                    "imageCover": { "label": "Image Cover (background)" }
+                  }
+                }
+              }
+            },
+            "sizeMode": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "sizeMode",
+              "label": "Size Mode",
+              "description": "How the tile height is determined. Aspect ratio keeps grid consistency.",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "minHeight": { "label": "Minimum Height" },
+                    "aspect":    { "label": "Aspect Ratio" },
+                    "fixed":     { "label": "Fixed Height" }
+                  }
+                }
+              }
+            },
+            "aspectRatio": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "aspectRatio",
+              "label": "Aspect Ratio",
+              "description": "Width:Height ratio — only applies when Size Mode is Aspect Ratio.",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 50,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "1/1":  { "label": "1 : 1 (Square)" },
+                    "4/3":  { "label": "4 : 3" },
+                    "3/2":  { "label": "3 : 2" },
+                    "16/9": { "label": "16 : 9 (Widescreen)" },
+                    "2/1":  { "label": "2 : 1" }
+                  }
+                }
+              }
+            },
+            "minHeight": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "minHeight",
+              "label": "Minimum Height",
+              "description": "Tile minimum height — only applies when Size Mode is Minimum Height.",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 60,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": "100",
+                  "max": "800",
+                  "step": "10",
+                  "default": "320",
+                  "unitValue": true,
+                  "validUnits": ["px"]
+                }
+              }
+            },
+            "fixedHeight": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "fixedHeight",
+              "label": "Fixed Height",
+              "description": "Tile exact height — only applies when Size Mode is Fixed Height.",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 70,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": "100",
+                  "max": "800",
+                  "step": "10",
+                  "default": "320",
+                  "unitValue": true,
+                  "validUnits": ["px"]
+                }
+              }
             }
           }
         }
@@ -176,6 +286,28 @@
               "render": true,
               "priority": 10,
               "component": { "type": "field", "name": "divi/color-picker" }
+            }
+          },
+          "fit": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFrontMedia",
+              "attrName": "frontMedia.advanced.fit",
+              "label": "Image Fit",
+              "description": "How the image fills the media zone. Cover fills + crops, contain fits inside.",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "cover":   { "label": "Cover (fill & crop)" },
+                    "contain": { "label": "Contain (fit inside)" }
+                  }
+                }
+              }
             }
           }
         }

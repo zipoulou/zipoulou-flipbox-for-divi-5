@@ -24,12 +24,28 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
   const buttonUrl    = buttonAttr?.url ?? '#';
   const buttonTarget = 'on' === buttonAttr?.target ? '_blank' : undefined;
 
-  const flipboxAttr = getAttrByMode(attrs?.flipbox?.innerContent);
-  const trigger     = flipboxAttr?.trigger ?? 'hover';
-  const direction   = flipboxAttr?.direction ?? 'right';
-  const duration    = flipboxAttr?.duration ?? '600ms';
+  const flipboxAttr  = getAttrByMode(attrs?.flipbox?.innerContent);
+  const trigger      = flipboxAttr?.trigger      ?? 'hover';
+  const direction    = flipboxAttr?.direction    ?? 'right';
+  const duration     = flipboxAttr?.duration     ?? '600ms';
+  const layout       = flipboxAttr?.layout       ?? 'content';
+  const sizeMode     = flipboxAttr?.sizeMode     ?? 'minHeight';
+  const aspectRatio  = flipboxAttr?.aspectRatio  ?? '4/3';
+  const minHeight    = flipboxAttr?.minHeight    ?? '320px';
+  const fixedHeight  = flipboxAttr?.fixedHeight  ?? '320px';
+  const fitRaw       = getAttrByMode(attrs?.frontMedia?.advanced?.fit);
+  const fit          = (typeof fitRaw === 'string' ? fitRaw : 'cover') || 'cover';
 
-  const innerStyle = { ['--tmd-duration' as any]: duration } as React.CSSProperties;
+  const innerStyle = {
+    ['--tmd-duration'     as any]: duration,
+    ['--tmd-aspect-ratio' as any]: aspectRatio,
+    ['--tmd-min-height'   as any]: minHeight,
+    ['--tmd-fixed-height' as any]: fixedHeight,
+    ['--tmd-media-fit'    as any]: fit,
+  } as React.CSSProperties;
+
+  const showMedia = layout !== 'textOnly' && (showIcon || showImage);
+  const showText  = layout !== 'mediaOnly';
 
   return (
     <ModuleContainer
@@ -46,10 +62,12 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
         className="tmd5_flipbox__inner"
         data-tmd-trigger={trigger}
         data-tmd-direction={direction}
+        data-tmd-layout={layout}
+        data-tmd-size-mode={sizeMode}
         style={innerStyle}
       >
         <div className="tmd5_flipbox__front">
-          {(showIcon || showImage) && (
+          {showMedia && (
             <div className="tmd5_flipbox__front-media">
               {showIcon && elements.render({
                 attrName: 'frontMedia',
@@ -63,9 +81,9 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
               })}
             </div>
           )}
-          {elements.render({ attrName: 'frontSubtitle' })}
-          {elements.render({ attrName: 'frontTitle' })}
-          {elements.render({ attrName: 'frontContent' })}
+          {showText && elements.render({ attrName: 'frontSubtitle' })}
+          {showText && elements.render({ attrName: 'frontTitle' })}
+          {showText && elements.render({ attrName: 'frontContent' })}
         </div>
         <div className="tmd5_flipbox__back">
           {elements.render({ attrName: 'backSubtitle' })}

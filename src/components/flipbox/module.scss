@@ -2,30 +2,44 @@
 
 .tmd5_flipbox {
   perspective: 1000px;
-  min-height: 320px;
   position: relative;
 
   &__inner {
     --tmd-duration: 600ms;
+    --tmd-min-height: 320px;
+    --tmd-aspect-ratio: 4/3;
+    --tmd-fixed-height: 320px;
+    --tmd-media-fit: cover;
+
     position: relative;
     width: 100%;
-    height: 100%;
-    min-height: inherit;
+    min-height: var(--tmd-min-height);
     transform-style: preserve-3d;
     transition: transform var(--tmd-duration) cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    transform: translateZ(0);
   }
 
-  // Hover trigger : rotate when mouse over the module (or focus-within for a11y).
+  // Size modes
+  &__inner[data-tmd-size-mode='aspect'] {
+    min-height: 0;
+    aspect-ratio: var(--tmd-aspect-ratio);
+  }
+  &__inner[data-tmd-size-mode='fixed'] {
+    min-height: 0;
+    height: var(--tmd-fixed-height);
+  }
+
+  // Hover trigger
   &:hover .tmd5_flipbox__inner[data-tmd-trigger='hover'],
   &:focus-within .tmd5_flipbox__inner[data-tmd-trigger='hover'] {
-    transform: var(--tmd-flip-transform, rotateY(180deg));
+    transform: var(--tmd-flip-transform, rotateY(180deg)) translateZ(0);
   }
 
-  // Click trigger : .is-flipped toggled via JS.
+  // Click trigger
   &__inner[data-tmd-trigger='click'].is-flipped {
-    transform: var(--tmd-flip-transform, rotateY(180deg));
+    transform: var(--tmd-flip-transform, rotateY(180deg)) translateZ(0);
   }
-
   &__inner[data-tmd-trigger='click'] {
     cursor: pointer;
 
@@ -35,7 +49,7 @@
     }
   }
 
-  // Direction variants : set flip transform + initial back-side pose.
+  // Direction variants
   &__inner[data-tmd-direction='right'] {
     --tmd-flip-transform: rotateY(180deg);
     .tmd5_flipbox__back { transform: rotateY(180deg); }
@@ -71,19 +85,16 @@
     text-align: left;
     overflow: hidden;
 
-    // Contain every direct child horizontally.
     > * {
       max-width: 100%;
       min-width: 0;
     }
 
-    // Break long words / URLs so they don't push past the tile.
     h1, h2, h3, h4, h5, h6, p, span, div, a {
       overflow-wrap: anywhere;
       word-break: break-word;
     }
 
-    // Shrink any injected media to fit.
     img, video, iframe, svg {
       max-width: 100%;
       height: auto;
@@ -91,9 +102,7 @@
     }
   }
 
-  &__front {
-    background-color: #f0f4f8;
-  }
+  &__front { background-color: #f0f4f8; }
 
   &__back {
     background-color: #8300e9;
@@ -107,6 +116,76 @@
     }
   }
 
+  // Layout: textOnly — hide front media zone (already not rendered but defensive).
+  &__inner[data-tmd-layout='textOnly'] .tmd5_flipbox__front-media { display: none; }
+
+  // Layout: mediaOnly — hide text, center media.
+  &__inner[data-tmd-layout='mediaOnly'] {
+    .tmd5_flipbox__front {
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+    }
+    .tmd5_flipbox__front-media {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: var(--tmd-media-fit);
+      }
+      .et-pb-icon {
+        font-size: clamp(60px, 20vmin, 140px);
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+
+  // Layout: imageCover — image full-bleed as background, text overlay bottom.
+  &__inner[data-tmd-layout='imageCover'] {
+    .tmd5_flipbox__front {
+      justify-content: flex-end;
+      padding: 24px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.65) 0%, rgba(0, 0, 0, 0.15) 55%, rgba(0, 0, 0, 0) 100%);
+        z-index: 1;
+        pointer-events: none;
+      }
+    }
+    .tmd5_flipbox__front-media {
+      position: absolute;
+      inset: 0;
+      margin: 0;
+      z-index: 0;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: var(--tmd-media-fit);
+      }
+    }
+    .tmd5_flipbox__front-subtitle,
+    .tmd5_flipbox__front-title,
+    .tmd5_flipbox__front-content {
+      position: relative;
+      z-index: 2;
+      color: #ffffff;
+    }
+  }
+
+  // Image fit in the default (content) layout.
+  &__front-media img { object-fit: var(--tmd-media-fit); }
+
   &__front-media {
     margin-bottom: 18px;
 
@@ -119,12 +198,6 @@
       font-size: 40px;
       line-height: 1;
       color: #8300e9;
-    }
-
-    img {
-      display: block;
-      max-width: 100%;
-      height: auto;
     }
   }
 
@@ -177,5 +250,6 @@
 @media (prefers-reduced-motion: reduce) {
   .tmd5_flipbox__inner {
     transition: none;
+    will-change: auto;
   }
 }

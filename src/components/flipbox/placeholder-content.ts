@@ -7,7 +7,16 @@ export const placeholderContent: FlipboxAttrs = {
   flipbox: {
     innerContent: {
       desktop: {
-        value: { trigger: 'hover', direction: 'right', duration: '600ms' },
+        value: {
+          trigger: 'hover',
+          direction: 'right',
+          duration: '600ms',
+          layout: 'content',
+          sizeMode: 'minHeight',
+          aspectRatio: '4/3',
+          minHeight: '320px',
+          fixedHeight: '320px',
+        },
       },
     },
   },

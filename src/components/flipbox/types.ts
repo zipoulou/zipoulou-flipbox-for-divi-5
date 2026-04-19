@@ -43,6 +43,11 @@ export interface FlipboxSettingsInner {
   trigger?: 'hover' | 'click';
   direction?: 'right' | 'left' | 'up' | 'down';
   duration?: string;
+  layout?: 'content' | 'textOnly' | 'mediaOnly' | 'imageCover';
+  sizeMode?: 'minHeight' | 'aspect' | 'fixed';
+  aspectRatio?: '1/1' | '4/3' | '3/2' | '16/9' | '2/1';
+  minHeight?: string;
+  fixedHeight?: string;
 }
 
 export interface FlipboxAttrs extends InternalAttrs {
@@ -82,6 +87,7 @@ export interface FlipboxAttrs extends InternalAttrs {
     innerContent?: FormatBreakpointStateAttr<FlipboxMediaInner>;
     advanced?: {
       color?: Element.Decoration.Color.Attributes;
+      fit?: FormatBreakpointStateAttr<'cover' | 'contain'>;
     };
   };
 

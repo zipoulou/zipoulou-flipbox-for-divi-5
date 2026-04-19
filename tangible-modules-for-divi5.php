@@ -3,7 +3,7 @@
  * Plugin Name:       Tangible Modules for Divi 5
  * Plugin URI:        https://nicolasgalzy.fr
  * Description:       Suite de modules avancés exclusivement conçus pour Divi 5.
- * Version:           0.4.6
+ * Version:           0.5.0
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Author:            Nicolas Galzy
@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-define('TMD5_VERSION', '0.4.6');
+define('TMD5_VERSION', '0.5.0');
 define('TMD5_FILE', __FILE__);
 define('TMD5_PATH', plugin_dir_path(__FILE__));
 define('TMD5_URL', plugin_dir_url(__FILE__));

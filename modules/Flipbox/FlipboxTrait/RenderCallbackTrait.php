@@ -24,8 +24,14 @@ trait RenderCallbackTrait
         $has_icon     = !empty($media_inner['icon']);
         $has_image    = !empty($media_inner['src']);
 
+        $flipbox_settings = $attrs['flipbox']['innerContent']['desktop']['value'] ?? [];
+        $layout = $flipbox_settings['layout'] ?? 'content';
+
+        $show_media = $layout !== 'textOnly' && (($use_icon && $has_icon) || (!$use_icon && $has_image));
+        $show_text  = $layout !== 'mediaOnly';
+
         $media_html = '';
-        if ($use_icon && $has_icon) {
+        if ($show_media && $use_icon && $has_icon) {
             // Divi icon format: "&#xHEX;||family||weight" — parse and render manually.
             $icon_raw = (string) ($media_inner['icon'] ?? '');
             $parts    = explode('||', $icon_raw);
@@ -48,14 +54,15 @@ trait RenderCallbackTrait
                 'children'          => html_entity_decode($char_ent, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
                 'childrenSanitizer' => 'esc_html',
             ]);
-        } elseif (!$use_icon && $has_image) {
+        } elseif ($show_media && !$use_icon && $has_image) {
             $src  = (string) ($media_inner['src'] ?? '');
             $alt  = (string) ($media_inner['alt'] ?? '');
             $media_html = HTMLUtility::render([
                 'tag'        => 'img',
                 'attributes' => [
-                    'src' => esc_url($src),
-                    'alt' => $alt,
+                    'src'     => esc_url($src),
+                    'alt'     => $alt,
+                    'loading' => 'lazy',
                 ],
             ]);
         }
@@ -70,9 +77,9 @@ trait RenderCallbackTrait
             ]);
         }
 
-        $front_subtitle = $elements->render(['attrName' => 'frontSubtitle']);
-        $front_title    = $elements->render(['attrName' => 'frontTitle']);
-        $front_content  = $elements->render(['attrName' => 'frontContent']);
+        $front_subtitle = $show_text ? $elements->render(['attrName' => 'frontSubtitle']) : '';
+        $front_title    = $show_text ? $elements->render(['attrName' => 'frontTitle'])    : '';
+        $front_content  = $show_text ? $elements->render(['attrName' => 'frontContent'])  : '';
 
         $front = HTMLUtility::render([
             'tag'               => 'div',
@@ -116,10 +123,23 @@ trait RenderCallbackTrait
             'children'          => $back_subtitle . $back_title . $back_content . $button_html,
         ]);
 
-        $flipbox_settings = $attrs['flipbox']['innerContent']['desktop']['value'] ?? [];
-        $trigger          = $flipbox_settings['trigger'] ?? 'hover';
-        $direction        = $flipbox_settings['direction'] ?? 'right';
-        $duration         = $flipbox_settings['duration'] ?? '600ms';
+        $trigger     = $flipbox_settings['trigger']     ?? 'hover';
+        $direction   = $flipbox_settings['direction']   ?? 'right';
+        $duration    = $flipbox_settings['duration']    ?? '600ms';
+        $size_mode   = $flipbox_settings['sizeMode']    ?? 'minHeight';
+        $aspect      = $flipbox_settings['aspectRatio'] ?? '4/3';
+        $min_height  = $flipbox_settings['minHeight']   ?? '320px';
+        $fixed_h     = $flipbox_settings['fixedHeight'] ?? '320px';
+        $media_fit   = $attrs['frontMedia']['advanced']['fit']['desktop']['value'] ?? 'cover';
+
+        $style_vars = sprintf(
+            '--tmd-duration:%s;--tmd-aspect-ratio:%s;--tmd-min-height:%s;--tmd-fixed-height:%s;--tmd-media-fit:%s',
+            esc_attr($duration),
+            esc_attr($aspect),
+            esc_attr($min_height),
+            esc_attr($fixed_h),
+            esc_attr((string) $media_fit)
+        );
 
         $inner = HTMLUtility::render([
             'tag'               => 'div',
@@ -127,7 +147,9 @@ trait RenderCallbackTrait
                 'class'              => 'tmd5_flipbox__inner',
                 'data-tmd-trigger'   => $trigger,
                 'data-tmd-direction' => $direction,
-                'style'              => sprintf('--tmd-duration:%s', esc_attr($duration)),
+                'data-tmd-layout'    => $layout,
+                'data-tmd-size-mode' => $size_mode,
+                'style'              => $style_vars,
             ],
             'childrenSanitizer' => 'et_core_esc_previously',
             'children'          => $front . $back,
