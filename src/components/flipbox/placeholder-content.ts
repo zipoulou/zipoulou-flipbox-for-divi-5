@@ -13,6 +13,7 @@ export const placeholderContent: FlipboxAttrs = {
           direction: 'right',
           duration: '600ms',
           autoInterval: '4s',
+          preset: 'classic',
           layout: 'content',
           sizeMode: 'minHeight',
           aspectRatio: '4/3',

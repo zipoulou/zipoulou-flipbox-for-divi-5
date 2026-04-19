@@ -47,12 +47,21 @@ export type FlipboxAnimationType =
   | 'zoomOut'
   | 'blur';
 
+export type FlipboxPreset =
+  | 'classic'
+  | 'minimal'
+  | 'badge'
+  | 'stats'
+  | 'profile'
+  | 'split';
+
 export interface FlipboxSettingsInner {
   trigger?: 'hover' | 'click' | 'auto';
   type?: FlipboxAnimationType;
   direction?: 'right' | 'left' | 'up' | 'down';
   duration?: string;
   autoInterval?: string;
+  preset?: FlipboxPreset;
   layout?: 'content' | 'textOnly' | 'mediaOnly' | 'imageCover';
   sizeMode?: 'minHeight' | 'aspect' | 'fixed';
   aspectRatio?: '1/1' | '4/3' | '3/2' | '16/9' | '2/1';

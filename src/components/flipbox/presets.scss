@@ -1,0 +1,247 @@
+// Visual presets for the Zipoulou FlipBox. Each preset overrides baseline
+// typography / backgrounds / icon shape / spacing. Users pick one via the
+// "Visual Preset" select and can still override per-element via Design panel.
+
+.tmd5_flipbox {
+
+  // ======================================================================
+  //  PRESET: MINIMAL — typography-first, centered, subtle borders, no media
+  // ======================================================================
+  &__inner[data-tmd-preset='minimal'] {
+    .tmd5_flipbox__front,
+    .tmd5_flipbox__back {
+      align-items: center;
+      text-align: center;
+      padding: 40px 32px;
+    }
+    .tmd5_flipbox__front {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+    }
+    .tmd5_flipbox__back {
+      background-color: #111827;
+
+      .tmd5_flipbox__back-subtitle,
+      .tmd5_flipbox__back-title,
+      .tmd5_flipbox__back-content,
+      .tmd5_flipbox__back-content * {
+        color: #ffffff;
+      }
+    }
+    .tmd5_flipbox__front-media { display: none; }
+
+    .tmd5_flipbox__front-subtitle,
+    .tmd5_flipbox__back-subtitle {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      opacity: 0.55;
+    }
+    .tmd5_flipbox__front-title,
+    .tmd5_flipbox__back-title {
+      font-size: 28px;
+      font-weight: 300;
+      line-height: 1.3;
+    }
+    .tmd5_flipbox__back-button {
+      background: transparent;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      &:hover,
+      &:focus {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
+    }
+  }
+
+  // ======================================================================
+  //  PRESET: BADGE — icon in colored rounded square, left accent stripe
+  // ======================================================================
+  &__inner[data-tmd-preset='badge'] {
+    .tmd5_flipbox__front {
+      background-color: #f9fafb;
+      border-left: 4px solid #8300e9;
+    }
+    .tmd5_flipbox__back {
+      background: linear-gradient(135deg, #8300e9 0%, #a855f7 100%);
+    }
+    .tmd5_flipbox__front-media {
+      margin-bottom: 24px;
+
+      .et-pb-icon {
+        width: 72px;
+        height: 72px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #8300e9 0%, #a855f7 100%);
+        color: #ffffff;
+        font-size: 32px;
+        box-shadow: 0 10px 20px -8px rgba(131, 0, 233, 0.4);
+      }
+      img {
+        width: 72px;
+        height: 72px;
+        border-radius: 16px;
+        object-fit: cover;
+      }
+    }
+    .tmd5_flipbox__front-title,
+    .tmd5_flipbox__back-title {
+      font-weight: 700;
+      font-size: 22px;
+    }
+  }
+
+  // ======================================================================
+  //  PRESET: STATS — big number/title, subtitle kicker below
+  // ======================================================================
+  &__inner[data-tmd-preset='stats'] {
+    .tmd5_flipbox__front,
+    .tmd5_flipbox__back {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 32px 24px;
+    }
+    .tmd5_flipbox__front-media { display: none; }
+
+    .tmd5_flipbox__front-subtitle,
+    .tmd5_flipbox__back-subtitle {
+      order: 2;
+      font-size: 13px;
+      letter-spacing: 0.12em;
+      margin: 14px 0 0;
+      opacity: 0.7;
+    }
+    .tmd5_flipbox__front-title,
+    .tmd5_flipbox__back-title {
+      order: 1;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 800;
+      line-height: 1;
+      margin: 0;
+      background: linear-gradient(135deg, #8300e9, #e11d48);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .tmd5_flipbox__back-title {
+      background: none;
+      -webkit-text-fill-color: #ffffff;
+      color: #ffffff;
+    }
+    .tmd5_flipbox__front-content,
+    .tmd5_flipbox__back-content {
+      order: 3;
+      margin: 18px 0 0;
+      font-size: 14px;
+      max-width: 280px;
+    }
+    .tmd5_flipbox__back-button {
+      order: 4;
+      margin-top: 20px;
+    }
+  }
+
+  // ======================================================================
+  //  PRESET: PROFILE — circular avatar, centered, name/role/bio
+  // ======================================================================
+  &__inner[data-tmd-preset='profile'] {
+    .tmd5_flipbox__front,
+    .tmd5_flipbox__back {
+      align-items: center;
+      text-align: center;
+      padding: 36px 28px;
+    }
+    .tmd5_flipbox__front {
+      background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
+    }
+    .tmd5_flipbox__front-media {
+      margin-bottom: 18px;
+
+      img,
+      .et-pb-icon {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.25);
+      }
+      .et-pb-icon {
+        background: linear-gradient(135deg, #8300e9, #a855f7);
+        color: #ffffff;
+        font-size: 52px;
+      }
+    }
+    .tmd5_flipbox__front-subtitle,
+    .tmd5_flipbox__back-subtitle {
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      color: #8300e9;
+      opacity: 1;
+    }
+    .tmd5_flipbox__front-title,
+    .tmd5_flipbox__back-title {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 4px 0 10px;
+    }
+  }
+
+  // ======================================================================
+  //  PRESET: SPLIT — grid 50/50, media left, text right (front only)
+  // ======================================================================
+  &__inner[data-tmd-preset='split'] {
+    .tmd5_flipbox__front {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto 1fr auto;
+      padding: 0;
+      gap: 0;
+      align-items: flex-start;
+    }
+    .tmd5_flipbox__front-media {
+      grid-column: 1;
+      grid-row: 1 / -1;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f3f4f6;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .et-pb-icon {
+        width: auto;
+        height: auto;
+        font-size: clamp(40px, 8vmin, 72px);
+      }
+    }
+    .tmd5_flipbox__front-subtitle {
+      grid-column: 2;
+      grid-row: 1;
+      padding: 28px 28px 0;
+      margin: 0;
+    }
+    .tmd5_flipbox__front-title {
+      grid-column: 2;
+      grid-row: 2;
+      padding: 4px 28px 0;
+      margin: 0;
+    }
+    .tmd5_flipbox__front-content {
+      grid-column: 2;
+      grid-row: 3 / 5;
+      padding: 12px 28px 28px;
+      margin: 0;
+      overflow: auto;
+    }
+
+    // Back side keeps the default flex column layout (no split on back).
+  }
+}

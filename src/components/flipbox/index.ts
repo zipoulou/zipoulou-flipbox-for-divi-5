@@ -12,6 +12,7 @@ import { placeholderContent } from './placeholder-content';
 
 import './style.scss';
 import './module.scss';
+import './presets.scss';
 
 
 export const flipbox: ModuleLibrary.Module.RegisterDefinition<FlipboxAttrs> = {

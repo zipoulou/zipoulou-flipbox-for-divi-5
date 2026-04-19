@@ -30,6 +30,7 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
   const direction     = flipboxAttr?.direction    ?? 'right';
   const duration      = flipboxAttr?.duration     ?? '600ms';
   const autoInterval  = flipboxAttr?.autoInterval ?? '4s';
+  const preset        = flipboxAttr?.preset       ?? 'classic';
   const layout        = flipboxAttr?.layout       ?? 'content';
   const sizeMode     = flipboxAttr?.sizeMode     ?? 'minHeight';
   const aspectRatio  = flipboxAttr?.aspectRatio  ?? '4/3';
@@ -65,6 +66,7 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
         data-tmd-trigger={trigger}
         data-tmd-type={animType}
         data-tmd-direction={direction}
+        data-tmd-preset={preset}
         data-tmd-layout={layout}
         data-tmd-size-mode={sizeMode}
         data-tmd-auto-interval={autoInterval}

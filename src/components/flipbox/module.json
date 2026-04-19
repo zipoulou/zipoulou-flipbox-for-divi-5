@@ -126,6 +126,30 @@
                 }
               }
             },
+            "preset": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "preset",
+              "label": "Visual Preset",
+              "description": "Curated visual style (override layout baseline). Use Design panel for fine-tuning.",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 3,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "classic":  { "label": "Classic (icon + title + text + button)" },
+                    "minimal":  { "label": "Minimal (typography-first)" },
+                    "badge":    { "label": "Badge (colored icon square + accent)" },
+                    "stats":    { "label": "Stats (big number / metric)" },
+                    "profile":  { "label": "Profile (circular avatar, centered)" },
+                    "split":    { "label": "Split (media left / text right)" }
+                  }
+                }
+              }
+            },
             "layout": {
               "groupSlug": "contentFlipboxSettings",
               "attrName": "flipbox.innerContent",
