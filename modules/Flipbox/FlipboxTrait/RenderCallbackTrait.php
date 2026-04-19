@@ -26,16 +26,37 @@ trait RenderCallbackTrait
 
         $media_html = '';
         if ($use_icon && $has_icon) {
-            $media_html = $elements->render([
-                'attrName'     => 'frontMedia',
-                'tagName'      => 'span',
-                'skipChildren' => true,
-                'className'    => 'et-pb-icon',
+            // Divi icon format: "&#xHEX;||family||weight" — parse and render manually.
+            $icon_raw = (string) ($media_inner['icon'] ?? '');
+            $parts    = explode('||', $icon_raw);
+            $char_ent = $parts[0] ?? '';
+            $weight   = $parts[2] ?? '400';
+            $icon_color = $attrs['frontMedia']['advanced']['color']['desktop']['value'] ?? '';
+
+            $style_bits = ["font-weight:{$weight}"];
+            if ($icon_color) {
+                $style_bits[] = 'color:' . esc_attr($icon_color);
+            }
+
+            $media_html = HTMLUtility::render([
+                'tag'        => 'span',
+                'attributes' => [
+                    'class'     => 'et-pb-icon',
+                    'data-icon' => $char_ent,
+                    'style'     => implode(';', $style_bits),
+                ],
+                'children'          => html_entity_decode($char_ent, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                'childrenSanitizer' => 'esc_html',
             ]);
         } elseif (!$use_icon && $has_image) {
-            $media_html = $elements->render([
-                'attrName'    => 'frontMedia',
-                'elementType' => 'image',
+            $src  = (string) ($media_inner['src'] ?? '');
+            $alt  = (string) ($media_inner['alt'] ?? '');
+            $media_html = HTMLUtility::render([
+                'tag'        => 'img',
+                'attributes' => [
+                    'src' => esc_url($src),
+                    'alt' => $alt,
+                ],
             ]);
         }
 
