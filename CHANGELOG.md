@@ -5,6 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.4] — 2026-04-20
+
+### Added
+- **Image Zoom** (`frontMedia.advanced.zoom`) — range 100%-200% step 5%. Applies `transform: scale()` to the `<img>` with `transform-origin: center top`, so the crop caused by upscaling lands at the bottom of the tile (the top stays visible — useful when there's text right below the image).
+- **Image Focus Point** (`frontMedia.advanced.objectPosition`) — Top / Center / Bottom select mapping to `object-position` values. Controls which part of the image stays visible when `object-fit: cover` crops.
+- Default `--tmd-media-zoom` + `--tmd-media-position` CSS variables emitted on every flipbox inner (both VB edit and server render).
+
+---
+
 ## [0.7.3] — 2026-04-20
 
 ### Changed

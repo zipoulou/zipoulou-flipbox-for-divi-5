@@ -134,14 +134,27 @@ trait RenderCallbackTrait
         $min_height  = $flipbox_settings['minHeight']   ?? '320px';
         $fixed_h     = $flipbox_settings['fixedHeight'] ?? '320px';
         $media_fit   = $attrs['frontMedia']['advanced']['fit']['desktop']['value'] ?? 'cover';
+        $media_zoom  = $attrs['frontMedia']['advanced']['zoom']['desktop']['value'] ?? '100%';
+        $media_pos   = $attrs['frontMedia']['advanced']['objectPosition']['desktop']['value'] ?? 'center center';
+
+        // Convert "115%" → "1.15" for CSS scale().
+        $zoom_scale = '1';
+        if (preg_match('/^(\d+(?:\.\d+)?)/', (string) $media_zoom, $m)) {
+            $zoom_scale = rtrim(rtrim(number_format((float) $m[1] / 100, 4, '.', ''), '0'), '.');
+            if ($zoom_scale === '') {
+                $zoom_scale = '1';
+            }
+        }
 
         $style_vars = sprintf(
-            '--tmd-duration:%s;--tmd-aspect-ratio:%s;--tmd-min-height:%s;--tmd-fixed-height:%s;--tmd-media-fit:%s',
+            '--tmd-duration:%s;--tmd-aspect-ratio:%s;--tmd-min-height:%s;--tmd-fixed-height:%s;--tmd-media-fit:%s;--tmd-media-zoom:%s;--tmd-media-position:%s',
             esc_attr($duration),
             esc_attr($aspect),
             esc_attr($min_height),
             esc_attr($fixed_h),
-            esc_attr((string) $media_fit)
+            esc_attr((string) $media_fit),
+            esc_attr($zoom_scale),
+            esc_attr((string) $media_pos)
         );
 
         $inner = HTMLUtility::render([

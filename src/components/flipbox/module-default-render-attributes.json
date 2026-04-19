@@ -22,6 +22,12 @@
     "advanced": {
       "fit": {
         "desktop": { "value": "cover" }
+      },
+      "zoom": {
+        "desktop": { "value": "100%" }
+      },
+      "objectPosition": {
+        "desktop": { "value": "center center" }
       }
     }
   },

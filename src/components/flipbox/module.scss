@@ -304,10 +304,16 @@
   // ======================================================================
   //  MEDIA / TYPOGRAPHY / BUTTON
   // ======================================================================
-  &__front-media img { object-fit: var(--tmd-media-fit); }
-
   &__front-media {
     margin-bottom: 18px;
+    overflow: hidden;
+
+    img {
+      object-fit: var(--tmd-media-fit);
+      object-position: var(--tmd-media-position, center center);
+      transform: scale(var(--tmd-media-zoom, 1));
+      transform-origin: center top;
+    }
 
     .et-pb-icon {
       display: inline-flex;

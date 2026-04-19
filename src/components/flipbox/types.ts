@@ -109,6 +109,8 @@ export interface FlipboxAttrs extends InternalAttrs {
     advanced?: {
       color?: Element.Decoration.Color.Attributes;
       fit?: FormatBreakpointStateAttr<'cover' | 'contain'>;
+      zoom?: FormatBreakpointStateAttr<string>;
+      objectPosition?: FormatBreakpointStateAttr<string>;
     };
   };
 

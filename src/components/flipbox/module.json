@@ -383,6 +383,53 @@
                 }
               }
             }
+          },
+          "zoom": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFrontMedia",
+              "attrName": "frontMedia.advanced.zoom",
+              "label": "Image Zoom",
+              "description": "Zoom into the image to make the subject fill more of the tile. Cropping is pushed toward the bottom (top stays visible).",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": "100",
+                  "max": "200",
+                  "step": "5",
+                  "default": "100",
+                  "unitValue": true,
+                  "validUnits": ["%"]
+                }
+              }
+            }
+          },
+          "objectPosition": {
+            "groupType": "group-item",
+            "item": {
+              "groupSlug": "designFrontMedia",
+              "attrName": "frontMedia.advanced.objectPosition",
+              "label": "Image Focus Point",
+              "description": "Which part of the image stays visible when cropped. 'Top' preserves the top and crops the bottom.",
+              "features": { "hover": false, "sticky": false, "responsive": true },
+              "render": true,
+              "priority": 40,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "center top":    { "label": "Top" },
+                    "center center": { "label": "Center" },
+                    "center bottom": { "label": "Bottom" }
+                  }
+                }
+              }
+            }
           }
         }
       }

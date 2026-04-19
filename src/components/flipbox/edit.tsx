@@ -38,6 +38,16 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
   const fixedHeight  = flipboxAttr?.fixedHeight  ?? '320px';
   const fitRaw       = getAttrByMode(attrs?.frontMedia?.advanced?.fit);
   const fit          = (typeof fitRaw === 'string' ? fitRaw : 'cover') || 'cover';
+  const zoomRaw      = getAttrByMode(attrs?.frontMedia?.advanced?.zoom);
+  const zoom         = (typeof zoomRaw === 'string' ? zoomRaw : '100%') || '100%';
+  const objPosRaw    = getAttrByMode(attrs?.frontMedia?.advanced?.objectPosition);
+  const objectPosition = (typeof objPosRaw === 'string' ? objPosRaw : 'center center') || 'center center';
+
+  const zoomScale = (() => {
+    const m = String(zoom).match(/^(\d+(?:\.\d+)?)/);
+    const pct = m ? parseFloat(m[1]) : 100;
+    return (pct / 100).toString();
+  })();
 
   const innerStyle = {
     ['--tmd-duration'     as any]: duration,
@@ -45,6 +55,8 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
     ['--tmd-min-height'   as any]: minHeight,
     ['--tmd-fixed-height' as any]: fixedHeight,
     ['--tmd-media-fit'    as any]: fit,
+    ['--tmd-media-zoom'   as any]: zoomScale,
+    ['--tmd-media-position' as any]: objectPosition,
   } as React.CSSProperties;
 
   const showMedia = layout !== 'textOnly' && (showIcon || showImage);

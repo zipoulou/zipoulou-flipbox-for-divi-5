@@ -109,6 +109,8 @@ All attributes are optional. Defaults are applied both server-side (PHP render) 
 |---|---|---|
 | `color` | hex / rgba | — (only affects icon) |
 | `fit` | `cover` \| `contain` | `cover` (only affects image) |
+| `zoom` | percentage `100%`-`200%` step 5% | `100%` — enlarges subject, crops excess at bottom (transform-origin: top) |
+| `objectPosition` | `center top` \| `center center` \| `center bottom` | `center center` — which part of the image stays visible when cropped |
 
 ### 4.4 Text attributes — subtitle / title / content (front + back)
 
