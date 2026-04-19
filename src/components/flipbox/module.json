@@ -197,7 +197,7 @@
         "innerContent": {
           "groupType": "group-item",
           "item": {
-            "groupName": "contentFront",
+            "groupSlug": "contentFront",
             "priority": 5,
             "render": true,
             "attrName": "frontSubtitle.innerContent",
@@ -231,7 +231,7 @@
         "innerContent": {
           "groupType": "group-item",
           "item": {
-            "groupName": "contentFront",
+            "groupSlug": "contentFront",
             "priority": 10,
             "render": true,
             "attrName": "frontTitle.innerContent",
@@ -273,7 +273,7 @@
         "innerContent": {
           "groupType": "group-item",
           "item": {
-            "groupName": "contentFront",
+            "groupSlug": "contentFront",
             "priority": 20,
             "render": true,
             "attrName": "frontContent.innerContent",
@@ -302,7 +302,7 @@
         "innerContent": {
           "groupType": "group-item",
           "item": {
-            "groupName": "contentBack",
+            "groupSlug": "contentBack",
             "priority": 5,
             "render": true,
             "attrName": "backSubtitle.innerContent",
@@ -333,7 +333,7 @@
         "innerContent": {
           "groupType": "group-item",
           "item": {
-            "groupName": "contentBack",
+            "groupSlug": "contentBack",
             "priority": 10,
             "render": true,
             "attrName": "backTitle.innerContent",
@@ -375,7 +375,7 @@
         "innerContent": {
           "groupType": "group-item",
           "item": {
-            "groupName": "contentBack",
+            "groupSlug": "contentBack",
             "priority": 20,
             "render": true,
             "attrName": "backContent.innerContent",
