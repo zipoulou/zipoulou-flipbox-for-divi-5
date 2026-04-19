@@ -317,6 +317,10 @@ For non-Windows environments, replace `plink`/`pscp` with `ssh`/`scp` (roughly s
 
 See [CHANGELOG.md](CHANGELOG.md) for full history.
 
+## For AI Agents
+
+A complete [SKILL.md](SKILL.md) is provided for AI coding agents (Claude Code, Cursor, etc.). It documents block markup, every attribute, containment rules, procedural workflow (WP-CLI + REST), recipes, and common pitfalls so an agent can programmatically add/edit/remove flipboxes without reading the full codebase.
+
 ## License
 
 GPL-2.0-or-later — same as WordPress and Divi. See plugin header.
@@ -506,6 +510,10 @@ Sur environnement non-Windows, remplacer `plink`/`pscp` par `ssh`/`scp` (argumen
 - **v1.0** — Intégration Divi Library, loop via WP_Query (un flipbox par post)
 
 Voir [CHANGELOG.md](CHANGELOG.md) pour l'historique complet.
+
+## Pour les agents IA
+
+Un fichier [SKILL.md](SKILL.md) complet est fourni pour les agents de code IA (Claude Code, Cursor, etc.). Il documente le block markup, chaque attribut, les règles d'imbrication, le workflow procédural (WP-CLI + REST), les recettes, et les pièges fréquents — un agent peut ajouter/modifier/supprimer des flipbox par programmation sans lire tout le codebase.
 
 ## Licence
 
