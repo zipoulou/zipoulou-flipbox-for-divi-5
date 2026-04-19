@@ -5,6 +5,34 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.0] — 2026-04-20
+
+### Added
+- **6 visual presets** controlled via `flipbox.innerContent.preset` : `classic` (default), `minimal`, `badge`, `stats`, `profile`, `split`.
+- Each preset is a curated CSS bundle (backgrounds, typography, icon shape, spacing) in `src/components/flipbox/presets.scss` — fully overridable via Design panel.
+- `data-tmd-preset` attribute emitted on `.tmd5_flipbox__inner` by both VB edit and server render.
+
+---
+
+## [0.6.0] — 2026-04-20
+
+### Added
+- **6 animation types** via `flipbox.innerContent.type`:
+  - `flip` (default, 3D rotation — uses direction)
+  - `slide` (2D translate — uses direction)
+  - `fade` (opacity cross-fade)
+  - `zoomIn` (back grows from 0.7× to 1×)
+  - `zoomOut` (back shrinks from 1.3× to 1×)
+  - `blur` (filter blur 20 px + opacity)
+- **`auto` trigger** with configurable `autoInterval` (1–20 s) — auto-flip pauses on hover/focus for readability.
+- MutationObserver in `frontend.ts` for interval cleanup on DOM removal.
+
+### Changed
+- SCSS refactored with `@tmd-flipped($type)` mixin (DRY hover + click.is-flipped + auto.is-flipped).
+- Non-3D types flatten the `transform-style` and set `backface-visibility: visible` on child faces.
+
+---
+
 ## [0.5.2] — 2026-04-19
 
 ### Changed
