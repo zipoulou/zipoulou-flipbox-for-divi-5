@@ -5,6 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.5] — 2026-04-20
+
+### Changed
+- **Visual Builder edit view** completely rewritten:
+  - Front and back faces now stacked vertically at full width (40 px gap between them)
+  - Each face respects the live sizing (`minHeight` / `aspectRatio` / `fixedHeight`)
+  - White **FRONT SIDE** badge (purple border) pinned top-left of the front face; **BACK SIDE** badge (dark red border) pinned top-left of the back face
+  - Dashed outlines around every content zone (media, subtitle, title, content, button) — 1 px slate grey, accented purple for media, orange for back button
+  - Empty zones (no value typed yet) get a tinted placeholder background so they're clickable
+  - Image `transform: scale()` from the Zoom attribute is disabled in edit view (distracting during editing)
+
+---
+
 ## [0.7.4] — 2026-04-20
 
 ### Added

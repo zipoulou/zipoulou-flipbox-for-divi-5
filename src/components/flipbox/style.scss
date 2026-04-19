@@ -1,49 +1,123 @@
-// Visual Builder-only overrides to stack front/back for editing clarity.
+// Visual Builder-only edit view — stack both faces vertically at full size
+// with labels, so the editor can see and manipulate each side independently.
 
 .et-fb-app-frame,
-.et-db .et-l {
+.et-db .et-l,
+body.et-fb-iframe {
+
   .tmd5_flipbox {
-    perspective: none;
-    min-height: 0;
+    perspective: none !important;
+    min-height: auto !important;
+    height: auto !important;
+  }
 
-    &__inner {
-      transform: none !important;
-      transform-style: flat;
-      transition: none;
-    }
+  .tmd5_flipbox__inner {
+    transform: none !important;
+    transform-style: flat !important;
+    transition: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 40px !important;
+    min-height: auto !important;
+    aspect-ratio: auto !important;
+    height: auto !important;
+    will-change: auto !important;
+  }
 
-    &__front,
-    &__back {
-      position: relative;
-      inset: auto;
-      width: auto;
-      height: auto;
-      min-height: 0;
-      backface-visibility: visible;
-      transform: none !important;
-      margin-bottom: 12px;
-    }
+  // Flatten the two faces into stacked blocks at full width.
+  .tmd5_flipbox__front,
+  .tmd5_flipbox__back {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: var(--tmd-min-height, 320px) !important;
+    transform: none !important;
+    backface-visibility: visible !important;
+  }
 
-    &__front::before {
-      content: "Front Side";
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      opacity: 0.55;
-      margin-bottom: 10px;
+  // Respect sizing modes on each face individually.
+  .tmd5_flipbox__inner[data-tmd-size-mode='aspect'] {
+    .tmd5_flipbox__front,
+    .tmd5_flipbox__back {
+      aspect-ratio: var(--tmd-aspect-ratio, 4/3) !important;
+      min-height: 0 !important;
     }
+  }
+  .tmd5_flipbox__inner[data-tmd-size-mode='fixed'] {
+    .tmd5_flipbox__front,
+    .tmd5_flipbox__back {
+      height: var(--tmd-fixed-height, 320px) !important;
+      min-height: 0 !important;
+    }
+  }
 
-    &__back::before {
-      content: "Back Side";
-      display: block;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      opacity: 0.75;
-      margin-bottom: 10px;
-    }
+  // --- FACE LABELS (small badge inside top-left corner of each face) ---
+  .tmd5_flipbox__front::before,
+  .tmd5_flipbox__back::before {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    font-family: 'Open Sans', system-ui, sans-serif;
+    letter-spacing: 0.14em;
+    border-radius: 3px;
+    z-index: 100;
+    pointer-events: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  }
+  .tmd5_flipbox__front::before {
+    content: 'FRONT SIDE';
+    background: #ffffff;
+    color: #8300e9;
+    border: 1px solid rgba(131, 0, 233, 0.3);
+  }
+  .tmd5_flipbox__back::before {
+    content: 'BACK SIDE';
+    background: #ffffff;
+    color: #7a2222;
+    border: 1px solid rgba(122, 34, 34, 0.3);
+  }
+
+  // --- ZONE OUTLINES (dashed outlines around each editable zone) ---
+  .tmd5_flipbox__front-media,
+  .tmd5_flipbox__front-subtitle,
+  .tmd5_flipbox__front-title,
+  .tmd5_flipbox__front-content,
+  .tmd5_flipbox__back-subtitle,
+  .tmd5_flipbox__back-title,
+  .tmd5_flipbox__back-content,
+  .tmd5_flipbox__back-button {
+    outline: 1px dashed rgba(148, 163, 184, 0.45);
+    outline-offset: 2px;
+    position: relative;
+  }
+
+  // Slightly accent the media zone (it's often the largest + most interactive)
+  .tmd5_flipbox__front-media {
+    outline-color: rgba(131, 0, 233, 0.35);
+  }
+
+  // Back button gets a CTA-coloured outline
+  .tmd5_flipbox__back-button {
+    outline-color: rgba(234, 88, 12, 0.5);
+  }
+
+  // Reveal zones empty of content with a lighter placeholder tint
+  .tmd5_flipbox__front-subtitle:empty,
+  .tmd5_flipbox__front-title:empty,
+  .tmd5_flipbox__front-content:empty,
+  .tmd5_flipbox__back-subtitle:empty,
+  .tmd5_flipbox__back-title:empty,
+  .tmd5_flipbox__back-content:empty {
+    min-height: 24px;
+    background: rgba(148, 163, 184, 0.08);
+  }
+
+  // Disable image zoom / transform in VB (distracting during editing)
+  .tmd5_flipbox__front-media img {
+    transform: none !important;
   }
 }
