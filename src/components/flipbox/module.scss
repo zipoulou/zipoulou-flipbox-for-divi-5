@@ -69,6 +69,26 @@
     padding: 32px;
     box-sizing: border-box;
     text-align: left;
+    overflow: hidden;
+
+    // Contain every direct child horizontally.
+    > * {
+      max-width: 100%;
+      min-width: 0;
+    }
+
+    // Break long words / URLs so they don't push past the tile.
+    h1, h2, h3, h4, h5, h6, p, span, div, a {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    // Shrink any injected media to fit.
+    img, video, iframe, svg {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
   }
 
   &__front {
