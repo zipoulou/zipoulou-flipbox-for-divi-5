@@ -73,11 +73,6 @@ trait ModuleScriptDataTrait
                     'valueResolver' => static fn($value) => $value ?? '',
                     'sanitizer'     => 'et_core_esc_previously',
                 ],
-                [
-                    'selector'      => $selector . ' .tmd5_flipbox__back-button',
-                    'data'          => $attrs['backButton']['innerContent'] ?? [],
-                    'valueResolver' => static fn($value) => is_array($value) ? ($value['text'] ?? '') : ($value ?? ''),
-                ],
             ],
         ]);
     }
