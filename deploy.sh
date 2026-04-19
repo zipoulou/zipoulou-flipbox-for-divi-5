@@ -44,9 +44,12 @@ if [ ! -f "$ZIP_FILE" ]; then
     exit 1
 fi
 
-echo ">> Uploading $ZIP_FILE to ${O2_HOST}..."
+O2_HOME="${O2_HOME:-/home/${O2_USER}}"
+REMOTE_ZIP="${O2_HOME}/${ZIP_FILE}"
+
+echo ">> Uploading $ZIP_FILE to ${O2_HOST}:${REMOTE_ZIP}..."
 pscp -P "$O2_PORT" -l "$O2_USER" -pw "$O2_PASS" -batch \
-    "$ZIP_FILE" "${O2_USER}@${O2_HOST}:~/${ZIP_FILE}"
+    "$ZIP_FILE" "${O2_USER}@${O2_HOST}:${REMOTE_ZIP}"
 
 echo ">> Installing on remote at ${O2_PLUGIN_DIR}/${PKG_NAME}..."
 plink -ssh -P "$O2_PORT" -l "$O2_USER" -pw "$O2_PASS" -batch "$O2_HOST" "
@@ -55,8 +58,8 @@ plink -ssh -P "$O2_PORT" -l "$O2_USER" -pw "$O2_PASS" -batch "$O2_HOST" "
     rm -rf '${PKG_NAME}'
     mkdir -p '${PKG_NAME}'
     cd '${PKG_NAME}'
-    unzip -oq ~/${ZIP_FILE}
-    rm -f ~/${ZIP_FILE}
+    unzip -oq '${REMOTE_ZIP}'
+    rm -f '${REMOTE_ZIP}'
 "
 
 rm -f "$ZIP_FILE"

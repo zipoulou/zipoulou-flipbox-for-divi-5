@@ -3,13 +3,14 @@ const pkg = require('./package.json');
 
 const files = [
     '**/*',
-    '!**/.*/**',
+    '!**/.*',        // hidden files at any level
+    '!**/.*/**',     // contents of hidden dirs
     '!**/__*/**',
     '!**/node_modules/**',
     '!src/**',
     '!**/*.zip',
     '!**/*.map',
-    '!.gitignore',
+    '!deploy.sh',
     '!gulpfile.js',
     '!package.json',
     '!package-lock.json',
