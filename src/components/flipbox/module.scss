@@ -16,8 +16,14 @@
     min-height: var(--tmd-min-height);
     transform-style: preserve-3d;
     transition: transform var(--tmd-duration) cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  // Promote to GPU only while the user interacts — avoid permanent compositing
+  // layer (known to eat scroll wheel events on some browsers).
+  &:hover &__inner,
+  &:focus-within &__inner,
+  &__inner.is-flipped {
     will-change: transform;
-    transform: translateZ(0);
   }
 
   // Size modes
@@ -33,12 +39,12 @@
   // Hover trigger
   &:hover .tmd5_flipbox__inner[data-tmd-trigger='hover'],
   &:focus-within .tmd5_flipbox__inner[data-tmd-trigger='hover'] {
-    transform: var(--tmd-flip-transform, rotateY(180deg)) translateZ(0);
+    transform: var(--tmd-flip-transform, rotateY(180deg));
   }
 
   // Click trigger
   &__inner[data-tmd-trigger='click'].is-flipped {
-    transform: var(--tmd-flip-transform, rotateY(180deg)) translateZ(0);
+    transform: var(--tmd-flip-transform, rotateY(180deg));
   }
   &__inner[data-tmd-trigger='click'] {
     cursor: pointer;
@@ -250,6 +256,5 @@
 @media (prefers-reduced-motion: reduce) {
   .tmd5_flipbox__inner {
     transition: none;
-    will-change: auto;
   }
 }
