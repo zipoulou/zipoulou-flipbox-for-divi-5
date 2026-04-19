@@ -3,10 +3,9 @@ node_modules/
 vendor/
 
 # Build output
-scripts/bundle.js
+scripts/*.js
 scripts/*.js.map
-styles/bundle.css
-styles/vb-bundle.css
+styles/*.css
 styles/*.css.map
 modules-json/
 dist/
