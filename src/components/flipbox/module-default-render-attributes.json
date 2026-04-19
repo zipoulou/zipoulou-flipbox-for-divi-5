@@ -10,13 +10,6 @@
     "meta": {
       "adminLabel": { "desktop": { "value": "Tangible Flipbox" } }
     },
-    "advanced": {
-      "text": {
-        "text": {
-          "desktop": { "value": { "color": "light" } }
-        }
-      }
-    },
     "decoration": {
       "sizing": {
         "desktop": { "value": { "minHeight": "320px" } }

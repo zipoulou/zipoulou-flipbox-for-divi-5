@@ -36,3 +36,7 @@ desktop.ini
 
 # Deploy
 deploy.local.sh
+
+# Test artifacts
+_test_*.txt
+_test_*.png

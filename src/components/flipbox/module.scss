@@ -78,6 +78,13 @@
   &__back {
     background-color: #8300e9;
     color: #ffffff;
+
+    .tmd5_flipbox__back-subtitle,
+    .tmd5_flipbox__back-title,
+    .tmd5_flipbox__back-content,
+    .tmd5_flipbox__back-content * {
+      color: #ffffff;
+    }
   }
 
   &__front-media {
