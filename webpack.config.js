@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: {
     bundle: './src/index.ts',
+    frontend: './src/frontend.ts',
   },
 
   // Divi/WP globals provided at runtime — do not bundle.

@@ -12,17 +12,24 @@ import { ModuleScriptData } from './module-script-data';
 export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
   const { attrs, elements, id, name } = props;
 
-  const mediaAttr    = getAttrByMode(attrs?.frontMedia?.innerContent);
-  const isUsingIcon  = 'on' === (mediaAttr?.useIcon ?? 'off');
-  const hasMediaSrc  = Boolean(mediaAttr?.src);
-  const hasIcon      = Boolean(mediaAttr?.icon);
-  const showIcon     = isUsingIcon && hasIcon;
-  const showImage    = !isUsingIcon && hasMediaSrc;
+  const mediaAttr   = getAttrByMode(attrs?.frontMedia?.innerContent);
+  const isUsingIcon = 'on' === (mediaAttr?.useIcon ?? 'off');
+  const hasMediaSrc = Boolean(mediaAttr?.src);
+  const hasIcon     = Boolean(mediaAttr?.icon);
+  const showIcon    = isUsingIcon && hasIcon;
+  const showImage   = !isUsingIcon && hasMediaSrc;
 
-  const buttonAttr = getAttrByMode(attrs?.backButton?.innerContent);
-  const buttonText = buttonAttr?.text ?? '';
-  const buttonUrl  = buttonAttr?.url ?? '#';
+  const buttonAttr   = getAttrByMode(attrs?.backButton?.innerContent);
+  const buttonText   = buttonAttr?.text ?? '';
+  const buttonUrl    = buttonAttr?.url ?? '#';
   const buttonTarget = 'on' === buttonAttr?.target ? '_blank' : undefined;
+
+  const flipboxAttr = getAttrByMode(attrs?.flipbox?.innerContent);
+  const trigger     = flipboxAttr?.trigger ?? 'hover';
+  const direction   = flipboxAttr?.direction ?? 'right';
+  const duration    = flipboxAttr?.duration ?? '600ms';
+
+  const innerStyle = { ['--tmd-duration' as any]: duration } as React.CSSProperties;
 
   return (
     <ModuleContainer
@@ -35,7 +42,12 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
       scriptDataComponent={ModuleScriptData}
     >
       {elements.styleComponents({ attrName: 'module' })}
-      <div className="tmd5_flipbox__inner">
+      <div
+        className="tmd5_flipbox__inner"
+        data-tmd-trigger={trigger}
+        data-tmd-direction={direction}
+        style={innerStyle}
+      >
         <div className="tmd5_flipbox__front">
           {(showIcon || showImage) && (
             <div className="tmd5_flipbox__front-media">

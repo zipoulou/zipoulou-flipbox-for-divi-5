@@ -95,9 +95,19 @@ trait RenderCallbackTrait
             'children'          => $back_subtitle . $back_title . $back_content . $button_html,
         ]);
 
+        $flipbox_settings = $attrs['flipbox']['innerContent']['desktop']['value'] ?? [];
+        $trigger          = $flipbox_settings['trigger'] ?? 'hover';
+        $direction        = $flipbox_settings['direction'] ?? 'right';
+        $duration         = $flipbox_settings['duration'] ?? '600ms';
+
         $inner = HTMLUtility::render([
             'tag'               => 'div',
-            'attributes'        => ['class' => 'tmd5_flipbox__inner'],
+            'attributes'        => [
+                'class'              => 'tmd5_flipbox__inner',
+                'data-tmd-trigger'   => $trigger,
+                'data-tmd-direction' => $direction,
+                'style'              => sprintf('--tmd-duration:%s', esc_attr($duration)),
+            ],
             'childrenSanitizer' => 'et_core_esc_previously',
             'children'          => $front . $back,
         ]);

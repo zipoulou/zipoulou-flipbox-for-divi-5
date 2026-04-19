@@ -8,6 +8,82 @@
   "moduleOrderClassName": "tmd5_flipbox",
   "category": "module",
   "attributes": {
+    "flipbox": {
+      "type": "object",
+      "selector": "{{selector}}",
+      "settings": {
+        "innerContent": {
+          "groupType": "group-items",
+          "items": {
+            "trigger": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "trigger",
+              "label": "Animation Trigger",
+              "description": "Choose how the flipbox reveals its back side.",
+              "features": { "hover": false, "sticky": false, "responsive": false },
+              "render": true,
+              "priority": 10,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "hover": { "label": "On Hover" },
+                    "click": { "label": "On Click" }
+                  }
+                }
+              }
+            },
+            "direction": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "direction",
+              "label": "Flip Direction",
+              "description": "Direction in which the flipbox rotates to reveal the back.",
+              "features": { "hover": false, "sticky": false, "responsive": false },
+              "render": true,
+              "priority": 20,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "right": { "label": "Flip Right" },
+                    "left":  { "label": "Flip Left" },
+                    "up":    { "label": "Flip Up" },
+                    "down":  { "label": "Flip Down" }
+                  }
+                }
+              }
+            },
+            "duration": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "duration",
+              "label": "Animation Duration (ms)",
+              "description": "Duration of the flip animation in milliseconds.",
+              "features": { "hover": false, "sticky": false, "responsive": false },
+              "render": true,
+              "priority": 30,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": "100",
+                  "max": "2000",
+                  "step": "50",
+                  "default": "600",
+                  "unitValue": true,
+                  "validUnits": ["ms"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "module": {
       "type": "object",
       "selector": "{{selector}}",
@@ -392,6 +468,16 @@
     "design": "auto",
     "advanced": "auto",
     "groups": {
+      "contentFlipboxSettings": {
+        "panel": "content",
+        "priority": 1,
+        "groupName": "contentFlipboxSettings",
+        "multiElements": true,
+        "component": {
+          "name": "divi/composite",
+          "props": { "groupLabel": "Flipbox Settings" }
+        }
+      },
       "contentFrontMedia": {
         "panel": "content",
         "priority": 5,

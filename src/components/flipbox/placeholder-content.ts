@@ -4,6 +4,13 @@ import { FlipboxAttrs } from './types';
 
 
 export const placeholderContent: FlipboxAttrs = {
+  flipbox: {
+    innerContent: {
+      desktop: {
+        value: { trigger: 'hover', direction: 'right', duration: '600ms' },
+      },
+    },
+  },
   frontMedia: {
     innerContent: {
       desktop: {

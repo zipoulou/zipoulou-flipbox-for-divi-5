@@ -1,4 +1,11 @@
 {
+  "flipbox": {
+    "innerContent": {
+      "desktop": {
+        "value": { "trigger": "hover", "direction": "right", "duration": "600ms" }
+      }
+    }
+  },
   "module": {
     "meta": {
       "adminLabel": { "desktop": { "value": "Tangible Flipbox" } }

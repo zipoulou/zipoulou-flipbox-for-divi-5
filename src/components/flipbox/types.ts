@@ -39,8 +39,18 @@ export interface FlipboxButtonInner {
   target?: string;
 }
 
+export interface FlipboxSettingsInner {
+  trigger?: 'hover' | 'click';
+  direction?: 'right' | 'left' | 'up' | 'down';
+  duration?: string;
+}
+
 export interface FlipboxAttrs extends InternalAttrs {
   css?: FlipboxCssGroupAttr;
+
+  flipbox?: {
+    innerContent?: FormatBreakpointStateAttr<FlipboxSettingsInner>;
+  };
 
   module?: {
     meta?: Element.Meta.Attributes;

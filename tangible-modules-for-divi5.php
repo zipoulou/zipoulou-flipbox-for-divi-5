@@ -3,7 +3,7 @@
  * Plugin Name:       Tangible Modules for Divi 5
  * Plugin URI:        https://nicolasgalzy.fr
  * Description:       Suite de modules avancés exclusivement conçus pour Divi 5.
- * Version:           0.2.0
+ * Version:           0.3.0
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Author:            Nicolas Galzy
@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-define('TMD5_VERSION', '0.2.0');
+define('TMD5_VERSION', '0.3.0');
 define('TMD5_FILE', __FILE__);
 define('TMD5_PATH', plugin_dir_path(__FILE__));
 define('TMD5_URL', plugin_dir_url(__FILE__));
@@ -78,17 +78,32 @@ add_action('divi_visual_builder_assets_before_enqueue_scripts', static function 
 });
 
 /**
- * Enqueue frontend stylesheet on every page.
+ * Enqueue frontend stylesheet + runtime JS on every page.
+ * Skipped when Divi Visual Builder is active.
  */
 add_action('wp_enqueue_scripts', static function (): void {
-    $path = TMD5_PATH . 'styles/bundle.css';
-    if (!file_exists($path)) {
+    if (function_exists('et_core_is_fb_enabled') && et_core_is_fb_enabled()) {
         return;
     }
-    wp_enqueue_style(
-        'tangible-modules-divi5-frontend',
-        TMD5_URL . 'styles/bundle.css',
-        [],
-        TMD5_VERSION
-    );
+
+    $css_path = TMD5_PATH . 'styles/bundle.css';
+    if (file_exists($css_path)) {
+        wp_enqueue_style(
+            'tangible-modules-divi5-frontend',
+            TMD5_URL . 'styles/bundle.css',
+            [],
+            TMD5_VERSION
+        );
+    }
+
+    $js_path = TMD5_PATH . 'scripts/frontend.js';
+    if (file_exists($js_path)) {
+        wp_enqueue_script(
+            'tangible-modules-divi5-frontend',
+            TMD5_URL . 'scripts/frontend.js',
+            [],
+            TMD5_VERSION,
+            true
+        );
+    }
 });
