@@ -1,13 +1,44 @@
 {
-  "frontTitle": {
+  "frontSubtitle": {
     "decoration": {
       "font": {
         "font": {
           "desktop": {
             "value": {
-              "size": "22px",
-              "lineHeight": "1.2em",
-              "weight": "600"
+              "size": "13px",
+              "lineHeight": "1.4em",
+              "weight": "600",
+              "textTransform": "uppercase",
+              "letterSpacing": "0.08em"
+            }
+          }
+        }
+      }
+    }
+  },
+  "frontTitle": {
+    "decoration": {
+      "font": {
+        "font": {
+          "desktop": {
+            "value": { "size": "24px", "lineHeight": "1.2em", "weight": "600" }
+          }
+        }
+      }
+    }
+  },
+  "backSubtitle": {
+    "decoration": {
+      "font": {
+        "font": {
+          "desktop": {
+            "value": {
+              "size": "13px",
+              "lineHeight": "1.4em",
+              "weight": "600",
+              "textTransform": "uppercase",
+              "letterSpacing": "0.08em",
+              "color": "#ffffff"
             }
           }
         }
@@ -19,12 +50,7 @@
       "font": {
         "font": {
           "desktop": {
-            "value": {
-              "size": "22px",
-              "lineHeight": "1.2em",
-              "weight": "600",
-              "color": "#ffffff"
-            }
+            "value": { "size": "24px", "lineHeight": "1.2em", "weight": "600", "color": "#ffffff" }
           }
         }
       }

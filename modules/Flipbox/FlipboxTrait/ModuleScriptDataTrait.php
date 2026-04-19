@@ -42,6 +42,11 @@ trait ModuleScriptDataTrait
             'hoverSelector' => $selector,
             'setContent'    => [
                 [
+                    'selector'      => $selector . ' .tmd5_flipbox__front-subtitle',
+                    'data'          => $attrs['frontSubtitle']['innerContent'] ?? [],
+                    'valueResolver' => static fn($value) => $value ?? '',
+                ],
+                [
                     'selector'      => $selector . ' .tmd5_flipbox__front-title',
                     'data'          => $attrs['frontTitle']['innerContent'] ?? [],
                     'valueResolver' => static fn($value) => $value ?? '',
@@ -53,6 +58,11 @@ trait ModuleScriptDataTrait
                     'sanitizer'     => 'et_core_esc_previously',
                 ],
                 [
+                    'selector'      => $selector . ' .tmd5_flipbox__back-subtitle',
+                    'data'          => $attrs['backSubtitle']['innerContent'] ?? [],
+                    'valueResolver' => static fn($value) => $value ?? '',
+                ],
+                [
                     'selector'      => $selector . ' .tmd5_flipbox__back-title',
                     'data'          => $attrs['backTitle']['innerContent'] ?? [],
                     'valueResolver' => static fn($value) => $value ?? '',
@@ -62,6 +72,11 @@ trait ModuleScriptDataTrait
                     'data'          => $attrs['backContent']['innerContent'] ?? [],
                     'valueResolver' => static fn($value) => $value ?? '',
                     'sanitizer'     => 'et_core_esc_previously',
+                ],
+                [
+                    'selector'      => $selector . ' .tmd5_flipbox__back-button',
+                    'data'          => $attrs['backButton']['innerContent'] ?? [],
+                    'valueResolver' => static fn($value) => is_array($value) ? ($value['text'] ?? '') : ($value ?? ''),
                 ],
             ],
         ]);

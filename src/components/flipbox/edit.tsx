@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { ModuleContainer } from '@divi/module';
+import { getAttrByMode } from '@divi/module-utils';
 
 import { FlipboxEditProps } from './types';
 import { ModuleStyles } from './styles';
@@ -10,6 +11,18 @@ import { ModuleScriptData } from './module-script-data';
 
 export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
   const { attrs, elements, id, name } = props;
+
+  const mediaAttr    = getAttrByMode(attrs?.frontMedia?.innerContent);
+  const isUsingIcon  = 'on' === (mediaAttr?.useIcon ?? 'off');
+  const hasMediaSrc  = Boolean(mediaAttr?.src);
+  const hasIcon      = Boolean(mediaAttr?.icon);
+  const showIcon     = isUsingIcon && hasIcon;
+  const showImage    = !isUsingIcon && hasMediaSrc;
+
+  const buttonAttr = getAttrByMode(attrs?.backButton?.innerContent);
+  const buttonText = buttonAttr?.text ?? '';
+  const buttonUrl  = buttonAttr?.url ?? '#';
+  const buttonTarget = 'on' === buttonAttr?.target ? '_blank' : undefined;
 
   return (
     <ModuleContainer
@@ -24,16 +37,38 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
       {elements.styleComponents({ attrName: 'module' })}
       <div className="tmd5_flipbox__inner">
         <div className="tmd5_flipbox__front">
+          {(showIcon || showImage) && (
+            <div className="tmd5_flipbox__front-media">
+              {showIcon && elements.render({
+                attrName: 'frontMedia',
+                tagName: 'span',
+                skipChildren: true,
+                className: 'et-pb-icon',
+              })}
+              {showImage && elements.render({
+                attrName: 'frontMedia',
+                elementType: 'image',
+              })}
+            </div>
+          )}
+          {elements.render({ attrName: 'frontSubtitle' })}
           {elements.render({ attrName: 'frontTitle' })}
-          <div className="tmd5_flipbox__front-content-wrap">
-            {elements.render({ attrName: 'frontContent' })}
-          </div>
+          {elements.render({ attrName: 'frontContent' })}
         </div>
         <div className="tmd5_flipbox__back">
+          {elements.render({ attrName: 'backSubtitle' })}
           {elements.render({ attrName: 'backTitle' })}
-          <div className="tmd5_flipbox__back-content-wrap">
-            {elements.render({ attrName: 'backContent' })}
-          </div>
+          {elements.render({ attrName: 'backContent' })}
+          {buttonText && (
+            <a
+              className="tmd5_flipbox__back-button"
+              href={buttonUrl}
+              target={buttonTarget}
+              rel={buttonTarget ? 'noopener noreferrer' : undefined}
+            >
+              {buttonText}
+            </a>
+          )}
         </div>
       </div>
     </ModuleContainer>

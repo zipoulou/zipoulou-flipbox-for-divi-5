@@ -1,9 +1,7 @@
 {
   "module": {
     "meta": {
-      "adminLabel": {
-        "desktop": { "value": "Tangible Flipbox" }
-      }
+      "adminLabel": { "desktop": { "value": "Tangible Flipbox" } }
     },
     "advanced": {
       "text": {
@@ -14,27 +12,47 @@
     },
     "decoration": {
       "sizing": {
-        "desktop": {
-          "value": { "minHeight": "300px" }
-        }
+        "desktop": { "value": { "minHeight": "320px" } }
+      }
+    }
+  },
+  "frontMedia": {
+    "innerContent": {
+      "desktop": { "value": { "useIcon": "on" } }
+    }
+  },
+  "frontSubtitle": {
+    "decoration": {
+      "font": {
+        "font": { "desktop": { "value": { "headingLevel": "h4" } } }
       }
     }
   },
   "frontTitle": {
     "decoration": {
       "font": {
-        "font": {
-          "desktop": { "value": { "headingLevel": "h3" } }
-        }
+        "font": { "desktop": { "value": { "headingLevel": "h3" } } }
+      }
+    }
+  },
+  "backSubtitle": {
+    "decoration": {
+      "font": {
+        "font": { "desktop": { "value": { "headingLevel": "h4" } } }
       }
     }
   },
   "backTitle": {
     "decoration": {
       "font": {
-        "font": {
-          "desktop": { "value": { "headingLevel": "h3" } }
-        }
+        "font": { "desktop": { "value": { "headingLevel": "h3" } } }
+      }
+    }
+  },
+  "backButton": {
+    "innerContent": {
+      "desktop": {
+        "value": { "target": "off" }
       }
     }
   }

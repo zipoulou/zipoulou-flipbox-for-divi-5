@@ -41,10 +41,29 @@ export const ModuleStyles = ({
         },
       })}
 
+      {elements.style({
+        attrName: 'frontMedia',
+        styleProps: {
+          advancedStyles: [
+            {
+              componentName: 'divi/common',
+              props: {
+                attr: attrs?.frontMedia?.advanced?.color,
+                property: 'color',
+                selector: `${orderClass} .tmd5_flipbox__front-media .et-pb-icon`,
+              },
+            },
+          ],
+        },
+      })}
+
+      {elements.style({ attrName: 'frontSubtitle' })}
       {elements.style({ attrName: 'frontTitle' })}
       {elements.style({ attrName: 'frontContent' })}
+      {elements.style({ attrName: 'backSubtitle' })}
       {elements.style({ attrName: 'backTitle' })}
       {elements.style({ attrName: 'backContent' })}
+      {elements.style({ attrName: 'backButton' })}
 
       <CssStyle
         selector={orderClass}

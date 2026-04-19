@@ -2,7 +2,7 @@
 
 .tmd5_flipbox {
   perspective: 1000px;
-  min-height: 300px;
+  min-height: 320px;
   position: relative;
 
   &__inner {
@@ -31,8 +31,10 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding: 30px;
+    align-items: flex-start;
+    padding: 32px;
     box-sizing: border-box;
+    text-align: left;
   }
 
   &__front {
@@ -45,14 +47,70 @@
     transform: rotateY(180deg);
   }
 
+  &__front-media {
+    margin-bottom: 18px;
+
+    .et-pb-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      font-size: 40px;
+      line-height: 1;
+      color: #8300e9;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  &__front-subtitle,
+  &__back-subtitle {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.85;
+  }
+
   &__front-title,
   &__back-title {
     margin: 0 0 12px;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.2;
   }
 
   &__front-content,
   &__back-content {
-    line-height: 1.5;
+    margin: 0 0 18px;
+    line-height: 1.55;
+  }
+
+  &__back-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    margin-top: auto;
+    background-color: #ffffff;
+    color: #8300e9;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+
+    &:hover,
+    &:focus {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      color: #8300e9;
+    }
   }
 }
 
