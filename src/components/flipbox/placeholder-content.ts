@@ -9,8 +9,10 @@ export const placeholderContent: FlipboxAttrs = {
       desktop: {
         value: {
           trigger: 'hover',
+          type: 'flip',
           direction: 'right',
           duration: '600ms',
+          autoInterval: '4s',
           layout: 'content',
           sizeMode: 'minHeight',
           aspectRatio: '4/3',

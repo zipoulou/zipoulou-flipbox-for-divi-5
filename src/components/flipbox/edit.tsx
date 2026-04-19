@@ -24,11 +24,13 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
   const buttonUrl    = buttonAttr?.url ?? '#';
   const buttonTarget = 'on' === buttonAttr?.target ? '_blank' : undefined;
 
-  const flipboxAttr  = getAttrByMode(attrs?.flipbox?.innerContent);
-  const trigger      = flipboxAttr?.trigger      ?? 'hover';
-  const direction    = flipboxAttr?.direction    ?? 'right';
-  const duration     = flipboxAttr?.duration     ?? '600ms';
-  const layout       = flipboxAttr?.layout       ?? 'content';
+  const flipboxAttr   = getAttrByMode(attrs?.flipbox?.innerContent);
+  const trigger       = flipboxAttr?.trigger      ?? 'hover';
+  const animType      = flipboxAttr?.type         ?? 'flip';
+  const direction     = flipboxAttr?.direction    ?? 'right';
+  const duration      = flipboxAttr?.duration     ?? '600ms';
+  const autoInterval  = flipboxAttr?.autoInterval ?? '4s';
+  const layout        = flipboxAttr?.layout       ?? 'content';
   const sizeMode     = flipboxAttr?.sizeMode     ?? 'minHeight';
   const aspectRatio  = flipboxAttr?.aspectRatio  ?? '4/3';
   const minHeight    = flipboxAttr?.minHeight    ?? '320px';
@@ -61,9 +63,11 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
       <div
         className="tmd5_flipbox__inner"
         data-tmd-trigger={trigger}
+        data-tmd-type={animType}
         data-tmd-direction={direction}
         data-tmd-layout={layout}
         data-tmd-size-mode={sizeMode}
+        data-tmd-auto-interval={autoInterval}
         style={innerStyle}
       >
         <div className="tmd5_flipbox__front">

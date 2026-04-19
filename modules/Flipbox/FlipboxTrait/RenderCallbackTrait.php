@@ -123,10 +123,12 @@ trait RenderCallbackTrait
             'children'          => $back_subtitle . $back_title . $back_content . $button_html,
         ]);
 
-        $trigger     = $flipbox_settings['trigger']     ?? 'hover';
-        $direction   = $flipbox_settings['direction']   ?? 'right';
-        $duration    = $flipbox_settings['duration']    ?? '600ms';
-        $size_mode   = $flipbox_settings['sizeMode']    ?? 'minHeight';
+        $trigger       = $flipbox_settings['trigger']      ?? 'hover';
+        $anim_type     = $flipbox_settings['type']         ?? 'flip';
+        $direction     = $flipbox_settings['direction']    ?? 'right';
+        $duration      = $flipbox_settings['duration']     ?? '600ms';
+        $auto_interval = $flipbox_settings['autoInterval'] ?? '4s';
+        $size_mode     = $flipbox_settings['sizeMode']     ?? 'minHeight';
         $aspect      = $flipbox_settings['aspectRatio'] ?? '4/3';
         $min_height  = $flipbox_settings['minHeight']   ?? '320px';
         $fixed_h     = $flipbox_settings['fixedHeight'] ?? '320px';
@@ -144,12 +146,14 @@ trait RenderCallbackTrait
         $inner = HTMLUtility::render([
             'tag'               => 'div',
             'attributes'        => [
-                'class'              => 'tmd5_flipbox__inner',
-                'data-tmd-trigger'   => $trigger,
-                'data-tmd-direction' => $direction,
-                'data-tmd-layout'    => $layout,
-                'data-tmd-size-mode' => $size_mode,
-                'style'              => $style_vars,
+                'class'                 => 'tmd5_flipbox__inner',
+                'data-tmd-trigger'      => $trigger,
+                'data-tmd-type'         => $anim_type,
+                'data-tmd-direction'    => $direction,
+                'data-tmd-layout'       => $layout,
+                'data-tmd-size-mode'    => $size_mode,
+                'data-tmd-auto-interval' => $auto_interval,
+                'style'                 => $style_vars,
             ],
             'childrenSanitizer' => 'et_core_esc_previously',
             'children'          => $front . $back,

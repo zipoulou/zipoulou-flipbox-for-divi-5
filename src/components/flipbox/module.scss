@@ -1,4 +1,15 @@
-// Front-end + Visual Builder styles for the Tangible Flipbox.
+// Front-end + Visual Builder styles for the Zipoulou FlipBox.
+
+// Helper mixin : content applied when the flipbox is "flipped" — either by hover
+// (trigger='hover'), by click (.is-flipped), or by auto (.is-flipped added via JS).
+@mixin tmd-flipped($type) {
+  .tmd5_flipbox:hover .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
+  .tmd5_flipbox:focus-within .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
+  .tmd5_flipbox__inner[data-tmd-trigger='click'][data-tmd-type='#{$type}'].is-flipped,
+  .tmd5_flipbox__inner[data-tmd-trigger='auto'][data-tmd-type='#{$type}'].is-flipped {
+    @content;
+  }
+}
 
 .tmd5_flipbox {
   perspective: 1000px;
@@ -18,8 +29,8 @@
     transition: transform var(--tmd-duration) cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  // Promote to GPU only while the user interacts — avoid permanent compositing
-  // layer (known to eat scroll wheel events on some browsers).
+  // Promote to GPU only during interaction — avoid permanent compositing
+  // layer that can eat scroll wheel events on some browsers.
   &:hover &__inner,
   &:focus-within &__inner,
   &__inner.is-flipped {
@@ -36,16 +47,7 @@
     height: var(--tmd-fixed-height);
   }
 
-  // Hover trigger
-  &:hover .tmd5_flipbox__inner[data-tmd-trigger='hover'],
-  &:focus-within .tmd5_flipbox__inner[data-tmd-trigger='hover'] {
-    transform: var(--tmd-flip-transform, rotateY(180deg));
-  }
-
-  // Click trigger
-  &__inner[data-tmd-trigger='click'].is-flipped {
-    transform: var(--tmd-flip-transform, rotateY(180deg));
-  }
+  // --- Click / auto trigger common cursors ---
   &__inner[data-tmd-trigger='click'] {
     cursor: pointer;
 
@@ -55,24 +57,7 @@
     }
   }
 
-  // Direction variants
-  &__inner[data-tmd-direction='right'] {
-    --tmd-flip-transform: rotateY(180deg);
-    .tmd5_flipbox__back { transform: rotateY(180deg); }
-  }
-  &__inner[data-tmd-direction='left'] {
-    --tmd-flip-transform: rotateY(-180deg);
-    .tmd5_flipbox__back { transform: rotateY(-180deg); }
-  }
-  &__inner[data-tmd-direction='up'] {
-    --tmd-flip-transform: rotateX(180deg);
-    .tmd5_flipbox__back { transform: rotateX(180deg); }
-  }
-  &__inner[data-tmd-direction='down'] {
-    --tmd-flip-transform: rotateX(-180deg);
-    .tmd5_flipbox__back { transform: rotateX(-180deg); }
-  }
-
+  // --- Faces ---
   &__front,
   &__back {
     position: absolute;
@@ -91,10 +76,7 @@
     text-align: left;
     overflow: hidden;
 
-    > * {
-      max-width: 100%;
-      min-width: 0;
-    }
+    > * { max-width: 100%; min-width: 0; }
 
     h1, h2, h3, h4, h5, h6, p, span, div, a {
       overflow-wrap: anywhere;
@@ -122,10 +104,136 @@
     }
   }
 
-  // Layout: textOnly — hide front media zone (already not rendered but defensive).
+  // ======================================================================
+  //  TYPE: FLIP (3D rotation on axis — uses Direction)
+  // ======================================================================
+  &__inner[data-tmd-type='flip'] {
+    &[data-tmd-direction='right'] {
+      --tmd-flip-transform: rotateY(180deg);
+      .tmd5_flipbox__back { transform: rotateY(180deg); }
+    }
+    &[data-tmd-direction='left'] {
+      --tmd-flip-transform: rotateY(-180deg);
+      .tmd5_flipbox__back { transform: rotateY(-180deg); }
+    }
+    &[data-tmd-direction='up'] {
+      --tmd-flip-transform: rotateX(180deg);
+      .tmd5_flipbox__back { transform: rotateX(180deg); }
+    }
+    &[data-tmd-direction='down'] {
+      --tmd-flip-transform: rotateX(-180deg);
+      .tmd5_flipbox__back { transform: rotateX(-180deg); }
+    }
+  }
+
+  @include tmd-flipped('flip') {
+    transform: var(--tmd-flip-transform, rotateY(180deg));
+  }
+
+  // ======================================================================
+  //  TYPES WITHOUT 3D (flatten container, show both sides, animate children)
+  // ======================================================================
+  &__inner[data-tmd-type='slide'],
+  &__inner[data-tmd-type='fade'],
+  &__inner[data-tmd-type='zoomIn'],
+  &__inner[data-tmd-type='zoomOut'],
+  &__inner[data-tmd-type='blur'] {
+    transform-style: flat;
+    transition: none;
+
+    .tmd5_flipbox__front,
+    .tmd5_flipbox__back {
+      backface-visibility: visible;
+      transition:
+        transform var(--tmd-duration) cubic-bezier(0.4, 0, 0.2, 1),
+        opacity   var(--tmd-duration) ease,
+        filter    var(--tmd-duration) ease;
+    }
+  }
+
+  // ======================================================================
+  //  TYPE: SLIDE (translate front out, back in — uses Direction)
+  // ======================================================================
+  &__inner[data-tmd-type='slide'] {
+    &[data-tmd-direction='right'] .tmd5_flipbox__back { transform: translateX(100%); }
+    &[data-tmd-direction='left']  .tmd5_flipbox__back { transform: translateX(-100%); }
+    &[data-tmd-direction='up']    .tmd5_flipbox__back { transform: translateY(-100%); }
+    &[data-tmd-direction='down']  .tmd5_flipbox__back { transform: translateY(100%); }
+  }
+
+  @include tmd-flipped('slide') {
+    &[data-tmd-direction='right'] {
+      .tmd5_flipbox__front { transform: translateX(-100%); }
+      .tmd5_flipbox__back  { transform: translateX(0); }
+    }
+    &[data-tmd-direction='left'] {
+      .tmd5_flipbox__front { transform: translateX(100%); }
+      .tmd5_flipbox__back  { transform: translateX(0); }
+    }
+    &[data-tmd-direction='up'] {
+      .tmd5_flipbox__front { transform: translateY(100%); }
+      .tmd5_flipbox__back  { transform: translateY(0); }
+    }
+    &[data-tmd-direction='down'] {
+      .tmd5_flipbox__front { transform: translateY(-100%); }
+      .tmd5_flipbox__back  { transform: translateY(0); }
+    }
+  }
+
+  // ======================================================================
+  //  TYPE: FADE (opacity cross-fade — direction ignored)
+  // ======================================================================
+  &__inner[data-tmd-type='fade'] .tmd5_flipbox__back { opacity: 0; }
+
+  @include tmd-flipped('fade') {
+    .tmd5_flipbox__front { opacity: 0; }
+    .tmd5_flipbox__back  { opacity: 1; }
+  }
+
+  // ======================================================================
+  //  TYPE: ZOOM IN (back grows from small — direction ignored)
+  // ======================================================================
+  &__inner[data-tmd-type='zoomIn'] .tmd5_flipbox__back {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+
+  @include tmd-flipped('zoomIn') {
+    .tmd5_flipbox__front { opacity: 0; transform: scale(1.3); }
+    .tmd5_flipbox__back  { opacity: 1; transform: scale(1); }
+  }
+
+  // ======================================================================
+  //  TYPE: ZOOM OUT (back shrinks from big — direction ignored)
+  // ======================================================================
+  &__inner[data-tmd-type='zoomOut'] .tmd5_flipbox__back {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+
+  @include tmd-flipped('zoomOut') {
+    .tmd5_flipbox__front { opacity: 0; transform: scale(0.7); }
+    .tmd5_flipbox__back  { opacity: 1; transform: scale(1); }
+  }
+
+  // ======================================================================
+  //  TYPE: BLUR (blur + fade — direction ignored)
+  // ======================================================================
+  &__inner[data-tmd-type='blur'] .tmd5_flipbox__back {
+    opacity: 0;
+    filter: blur(20px);
+  }
+
+  @include tmd-flipped('blur') {
+    .tmd5_flipbox__front { opacity: 0; filter: blur(20px); }
+    .tmd5_flipbox__back  { opacity: 1; filter: blur(0); }
+  }
+
+  // ======================================================================
+  //  LAYOUTS (reuse across all types)
+  // ======================================================================
   &__inner[data-tmd-layout='textOnly'] .tmd5_flipbox__front-media { display: none; }
 
-  // Layout: mediaOnly — hide text, center media.
   &__inner[data-tmd-layout='mediaOnly'] {
     .tmd5_flipbox__front {
       justify-content: center;
@@ -153,7 +261,6 @@
     }
   }
 
-  // Layout: imageCover — image full-bleed as background, text overlay bottom.
   &__inner[data-tmd-layout='imageCover'] {
     .tmd5_flipbox__front {
       justify-content: flex-end;
@@ -189,7 +296,9 @@
     }
   }
 
-  // Image fit in the default (content) layout.
+  // ======================================================================
+  //  MEDIA / TYPOGRAPHY / BUTTON
+  // ======================================================================
   &__front-media img { object-fit: var(--tmd-media-fit); }
 
   &__front-media {
@@ -254,7 +363,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tmd5_flipbox__inner {
-    transition: none;
+  .tmd5_flipbox__inner,
+  .tmd5_flipbox__front,
+  .tmd5_flipbox__back {
+    transition: none !important;
   }
 }

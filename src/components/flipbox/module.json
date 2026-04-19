@@ -20,7 +20,7 @@
               "attrName": "flipbox.innerContent",
               "subName": "trigger",
               "label": "Animation Trigger",
-              "description": "Choose how the flipbox reveals its back side.",
+              "description": "How the flipbox reveals its back side: on hover, on click (toggle), or automatically on interval.",
               "features": { "hover": false, "sticky": false, "responsive": false },
               "render": true,
               "priority": 10,
@@ -30,7 +30,54 @@
                 "props": {
                   "options": {
                     "hover": { "label": "On Hover" },
-                    "click": { "label": "On Click" }
+                    "click": { "label": "On Click (toggle)" },
+                    "auto":  { "label": "Automatic (interval)" }
+                  }
+                }
+              }
+            },
+            "autoInterval": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "autoInterval",
+              "label": "Auto-Flip Interval",
+              "description": "How long each side is shown before auto-flipping (seconds). Applies only when Trigger is Automatic.",
+              "features": { "hover": false, "sticky": false, "responsive": false },
+              "render": true,
+              "priority": 35,
+              "component": {
+                "type": "field",
+                "name": "divi/range",
+                "props": {
+                  "min": "1",
+                  "max": "20",
+                  "step": "1",
+                  "default": "4",
+                  "unitValue": true,
+                  "validUnits": ["s"]
+                }
+              }
+            },
+            "type": {
+              "groupSlug": "contentFlipboxSettings",
+              "attrName": "flipbox.innerContent",
+              "subName": "type",
+              "label": "Animation Type",
+              "description": "Animation style used to reveal the back side.",
+              "features": { "hover": false, "sticky": false, "responsive": false },
+              "render": true,
+              "priority": 15,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "flip":    { "label": "3D Flip (uses Direction)" },
+                    "slide":   { "label": "Slide (uses Direction)" },
+                    "fade":    { "label": "Fade" },
+                    "zoomIn":  { "label": "Zoom In" },
+                    "zoomOut": { "label": "Zoom Out" },
+                    "blur":    { "label": "Blur" }
                   }
                 }
               }
@@ -39,8 +86,8 @@
               "groupSlug": "contentFlipboxSettings",
               "attrName": "flipbox.innerContent",
               "subName": "direction",
-              "label": "Flip Direction",
-              "description": "Direction in which the flipbox rotates to reveal the back.",
+              "label": "Direction",
+              "description": "Direction of movement (applies to 3D Flip and Slide only).",
               "features": { "hover": false, "sticky": false, "responsive": false },
               "render": true,
               "priority": 20,
@@ -49,10 +96,10 @@
                 "name": "divi/select",
                 "props": {
                   "options": {
-                    "right": { "label": "Flip Right" },
-                    "left":  { "label": "Flip Left" },
-                    "up":    { "label": "Flip Up" },
-                    "down":  { "label": "Flip Down" }
+                    "right": { "label": "Right" },
+                    "left":  { "label": "Left" },
+                    "up":    { "label": "Up" },
+                    "down":  { "label": "Down" }
                   }
                 }
               }

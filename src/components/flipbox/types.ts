@@ -39,10 +39,20 @@ export interface FlipboxButtonInner {
   target?: string;
 }
 
+export type FlipboxAnimationType =
+  | 'flip'
+  | 'slide'
+  | 'fade'
+  | 'zoomIn'
+  | 'zoomOut'
+  | 'blur';
+
 export interface FlipboxSettingsInner {
-  trigger?: 'hover' | 'click';
+  trigger?: 'hover' | 'click' | 'auto';
+  type?: FlipboxAnimationType;
   direction?: 'right' | 'left' | 'up' | 'down';
   duration?: string;
+  autoInterval?: string;
   layout?: 'content' | 'textOnly' | 'mediaOnly' | 'imageCover';
   sizeMode?: 'minHeight' | 'aspect' | 'fixed';
   aspectRatio?: '1/1' | '4/3' | '3/2' | '16/9' | '2/1';

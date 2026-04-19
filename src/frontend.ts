@@ -1,13 +1,17 @@
 /**
- * Tangible Flipbox — frontend runtime.
+ * Zipoulou FlipBox — frontend runtime.
  *
- * Handles click trigger toggling and keyboard activation.
+ * Handles:
+ *   - click trigger (toggle on click + keyboard activation)
+ *   - auto trigger (setInterval flip)
+ *
  * Hover trigger is pure CSS and needs no JS.
  */
 
 const INNER_SELECTOR = '.tmd5_flipbox__inner';
 const FLIPPED_CLASS  = 'is-flipped';
 const INIT_ATTR      = 'data-tmd-ready';
+const TIMER_ATTR     = 'data-tmd-timer';
 
 function updatePressed(el: HTMLElement): void {
   el.setAttribute(
@@ -16,46 +20,81 @@ function updatePressed(el: HTMLElement): void {
   );
 }
 
-function initFlipbox(el: HTMLElement): void {
-  if (el.getAttribute(INIT_ATTR) === '1') {
-    return;
-  }
-  el.setAttribute(INIT_ATTR, '1');
+function parseIntervalMs(raw: string | null): number {
+  if (!raw) return 4000;
+  const match = raw.match(/^(\d+(?:\.\d+)?)(ms|s)?$/);
+  if (!match) return 4000;
+  const value = parseFloat(match[1]);
+  const unit  = match[2] ?? 's';
+  return unit === 'ms' ? value : value * 1000;
+}
 
-  const trigger = el.getAttribute('data-tmd-trigger') ?? 'hover';
-  if (trigger !== 'click') {
-    return;
-  }
-
-  if (!el.hasAttribute('tabindex')) {
-    el.setAttribute('tabindex', '0');
-  }
-  if (!el.hasAttribute('role')) {
-    el.setAttribute('role', 'button');
-  }
+function initClick(el: HTMLElement): void {
+  if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+  if (!el.hasAttribute('role'))     el.setAttribute('role', 'button');
   updatePressed(el);
 
   el.addEventListener('click', (event: MouseEvent): void => {
     const target = event.target as HTMLElement | null;
-    if (target && target.closest('.tmd5_flipbox__back-button')) {
-      return;
-    }
+    if (target && target.closest('.tmd5_flipbox__back-button')) return;
     el.classList.toggle(FLIPPED_CLASS);
     updatePressed(el);
   });
 
   el.addEventListener('keydown', (event: KeyboardEvent): void => {
-    if (event.key !== 'Enter' && event.key !== ' ') {
-      return;
-    }
+    if (event.key !== 'Enter' && event.key !== ' ') return;
     const target = event.target as HTMLElement | null;
-    if (target && target.closest('.tmd5_flipbox__back-button')) {
-      return;
-    }
+    if (target && target.closest('.tmd5_flipbox__back-button')) return;
     event.preventDefault();
     el.classList.toggle(FLIPPED_CLASS);
     updatePressed(el);
   });
+}
+
+function initAuto(el: HTMLElement): void {
+  const intervalRaw = el.getAttribute('data-tmd-auto-interval');
+  const ms = Math.max(300, parseIntervalMs(intervalRaw));
+
+  // Pause cycling when the user hovers or focuses (give them time to read).
+  let paused = false;
+  const pause  = () => { paused = true; };
+  const resume = () => { paused = false; };
+  el.addEventListener('mouseenter', pause);
+  el.addEventListener('mouseleave', resume);
+  el.addEventListener('focusin',   pause);
+  el.addEventListener('focusout',  resume);
+
+  const timerId = window.setInterval(() => {
+    if (paused) return;
+    el.classList.toggle(FLIPPED_CLASS);
+  }, ms);
+
+  el.setAttribute(TIMER_ATTR, String(timerId));
+
+  // Clean up if the node is removed.
+  const cleanupObserver = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      for (const removed of Array.from(m.removedNodes)) {
+        if (removed === el || (removed instanceof HTMLElement && removed.contains(el))) {
+          window.clearInterval(timerId);
+          cleanupObserver.disconnect();
+          return;
+        }
+      }
+    }
+  });
+  if (el.parentNode) {
+    cleanupObserver.observe(el.parentNode, { childList: true, subtree: true });
+  }
+}
+
+function initFlipbox(el: HTMLElement): void {
+  if (el.getAttribute(INIT_ATTR) === '1') return;
+  el.setAttribute(INIT_ATTR, '1');
+
+  const trigger = el.getAttribute('data-tmd-trigger') ?? 'hover';
+  if (trigger === 'click')  initClick(el);
+  if (trigger === 'auto')   initAuto(el);
 }
 
 function boot(): void {
@@ -68,15 +107,12 @@ if (document.readyState === 'loading') {
   boot();
 }
 
-const observer = new MutationObserver((mutations: MutationRecord[]): void => {
+// Initialise dynamically injected flipboxes (AJAX page transitions etc.).
+const observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
-    mutation.addedNodes.forEach((node: Node): void => {
-      if (!(node instanceof HTMLElement)) {
-        return;
-      }
-      if (node.matches(INNER_SELECTOR)) {
-        initFlipbox(node);
-      }
+    mutation.addedNodes.forEach((node) => {
+      if (!(node instanceof HTMLElement)) return;
+      if (node.matches(INNER_SELECTOR)) initFlipbox(node);
       node.querySelectorAll<HTMLElement>(INNER_SELECTOR).forEach(initFlipbox);
     });
   }
