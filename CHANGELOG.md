@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.3] — 2026-04-20
+
+### Changed
+- **Showcase preset card edges** — added 1 px soft border (`rgba(15,23,42,0.08)`) and stronger drop shadow (`0 10px 28px -10px rgba(26,54,93,0.22)`) directly on `.tmd5_flipbox__front` and `.tmd5_flipbox__back`, so each card reads as a distinct tile rather than blending into the page background. Border-radius matched at 18 px on both faces.
+
+---
+
 ## [0.7.2] — 2026-04-20
 
 ### Added

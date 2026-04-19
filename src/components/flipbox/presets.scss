@@ -274,6 +274,12 @@
   //  Back: same avatar chip style as gallery preset (dark red #7a2222)
   // ======================================================================
   &__inner[data-tmd-preset='showcase'] {
+    .tmd5_flipbox__front,
+    .tmd5_flipbox__back {
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      border-radius: 18px;
+      box-shadow: 0 10px 28px -10px rgba(26, 54, 93, 0.22);
+    }
     .tmd5_flipbox__front {
       padding: 0;
       background: #ffffff;
