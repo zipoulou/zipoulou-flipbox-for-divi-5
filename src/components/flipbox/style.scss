@@ -1,0 +1,49 @@
+// Visual Builder-only overrides to stack front/back for editing clarity.
+
+.et-fb-app-frame,
+.et-db .et-l {
+  .tmd5_flipbox {
+    perspective: none;
+    min-height: 0;
+
+    &__inner {
+      transform: none !important;
+      transform-style: flat;
+      transition: none;
+    }
+
+    &__front,
+    &__back {
+      position: relative;
+      inset: auto;
+      width: auto;
+      height: auto;
+      min-height: 0;
+      backface-visibility: visible;
+      transform: none !important;
+      margin-bottom: 12px;
+    }
+
+    &__front::before {
+      content: "Front Side";
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.55;
+      margin-bottom: 10px;
+    }
+
+    &__back::before {
+      content: "Back Side";
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.75;
+      margin-bottom: 10px;
+    }
+  }
+}

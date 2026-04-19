@@ -1,0 +1,41 @@
+{
+  "module": {
+    "meta": {
+      "adminLabel": {
+        "desktop": { "value": "Tangible Flipbox" }
+      }
+    },
+    "advanced": {
+      "text": {
+        "text": {
+          "desktop": { "value": { "color": "dark" } }
+        }
+      }
+    },
+    "decoration": {
+      "sizing": {
+        "desktop": {
+          "value": { "minHeight": "300px" }
+        }
+      }
+    }
+  },
+  "frontTitle": {
+    "decoration": {
+      "font": {
+        "font": {
+          "desktop": { "value": { "headingLevel": "h3" } }
+        }
+      }
+    }
+  },
+  "backTitle": {
+    "decoration": {
+      "font": {
+        "font": {
+          "desktop": { "value": { "headingLevel": "h3" } }
+        }
+      }
+    }
+  }
+}
