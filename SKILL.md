@@ -78,7 +78,7 @@ All attributes are optional. Defaults are applied both server-side (PHP render) 
 
 | subName | Values | Default | Purpose |
 |---|---|---|---|
-| `preset` | `classic` \| `minimal` \| `badge` \| `stats` \| `profile` \| `split` \| `gallery` | `classic` | Curated visual bundle (backgrounds, typography, icon shape) |
+| `preset` | `classic` \| `minimal` \| `badge` \| `stats` \| `profile` \| `split` \| `gallery` \| `showcase` | `classic` | Curated visual bundle (backgrounds, typography, icon shape) |
 | `trigger` | `hover` \| `click` \| `auto` | `hover` | How the flip is triggered |
 | `type` | `flip` \| `slide` \| `fade` \| `zoomIn` \| `zoomOut` \| `blur` | `flip` | Animation style |
 | `direction` | `right` \| `left` \| `up` \| `down` | `right` | Applies only to `flip` and `slide` |
@@ -213,6 +213,20 @@ Requires image in `frontMedia.src` (fills left half of the front).
 {"layout":"imageCover","type":"fade","sizeMode":"aspect","aspectRatio":"16/9","trigger":"hover"}
 ```
 Image becomes full-bleed background with dark gradient overlay; text in white at the bottom.
+
+### Product card with caption — image top + title + hint caption, emoji back (Showcase preset)
+```json
+{
+  "preset":"showcase",
+  "layout":"content",
+  "sizeMode":"minHeight",
+  "minHeight":"440px",
+  "type":"flip",
+  "direction":"right",
+  "duration":"800ms"
+}
+```
+Pair with `frontMedia.innerContent.desktop.value.src` for the image, `frontTitle` for the product name (auto-styled in Contrail One italic blue centered), `frontContent` for a hint like "Survolez ou touchez" (auto-styled small uppercase gray). Back uses the same avatar chip style as `gallery` — set `backSubtitle` to an emoji, `backTitle` + `backContent` for name + description. Card is white with rounded corners and soft shadow (provided by `module.decoration` border-radius + boxShadow).
 
 ### Product gallery — image front, emoji avatar + description back (Gallery preset)
 ```json

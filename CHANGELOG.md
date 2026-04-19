@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.2] — 2026-04-20
+
+### Added
+- **8th visual preset: `showcase`** — front = large image (flex: 1) + white caption panel below with centered italic title + uppercase caption; back = same avatar chip style as `gallery`. Pair with `layout: content` + `sizeMode: minHeight` (e.g. 440px). Intended for product card / artisan showcase rows.
+
+---
+
 ## [0.7.1] — 2026-04-20
 
 ### Fixed

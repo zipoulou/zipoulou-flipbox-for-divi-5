@@ -166,6 +166,7 @@ Each preset is a curated bundle of CSS overriding backgrounds, typography, icon 
 | `profile` | 120 px circular avatar, centered, name + role + bio | Team members, testimonials |
 | `split` | 50/50 grid — media left, text right (front only) | Portfolio, case studies |
 | `gallery` | Front image full-bleed; back = circular emoji chip + title + body on dark background | Product gallery, artisan showcase |
+| `showcase` | Front = image top + white caption panel (title + hint); back = avatar chip + description | Product cards with "hover to reveal" pattern |
 
 ## Animation Catalog
 
@@ -402,6 +403,7 @@ Chaque preset est un pack CSS curé (backgrounds, typographie, forme de l'icône
 | `profile` | Avatar circulaire 120 px, centré, nom + rôle + bio | Équipe, témoignages |
 | `split` | Grille 50/50 — media à gauche, texte à droite (face avant uniquement) | Portfolio, études de cas |
 | `gallery` | Image full-bleed à l'avant ; face arrière = chip emoji circulaire + titre + contenu sur fond sombre | Galerie produits, vitrine artisanale |
+| `showcase` | Front = image en haut + panneau blanc (titre + indication) ; back = chip emoji + description | Cartes produits avec pattern "survoler pour révéler" |
 
 ## Catalogue d'animations
 
