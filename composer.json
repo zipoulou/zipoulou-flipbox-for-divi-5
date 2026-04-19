@@ -1,6 +1,6 @@
 {
   "name": "nicolasgalzy/tangible-modules-for-divi5",
-  "description": "Suite de modules avancés exclusivement conçus pour Divi 5.",
+  "description": "Zipoulou FlipBox — module FlipBox exclusivement conçu pour Divi 5.",
   "type": "wordpress-plugin",
   "license": "GPL-2.0-or-later",
   "autoload": {

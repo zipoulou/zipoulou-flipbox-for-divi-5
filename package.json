@@ -1,8 +1,8 @@
 {
   "name": "tangible-modules-for-divi5",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
-  "description": "Suite of advanced modules exclusively designed for Divi 5.",
+  "description": "Zipoulou FlipBox — a powerful flipbox module exclusively designed for Divi 5.",
   "author": "Nicolas Galzy",
   "license": "GPL-2.0-or-later",
   "engines": {

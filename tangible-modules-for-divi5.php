@@ -1,9 +1,9 @@
 <?php
 /**
- * Plugin Name:       Tangible Modules for Divi 5
+ * Plugin Name:       Zipoulou FlipBox for Divi 5
  * Plugin URI:        https://nicolasgalzy.fr
- * Description:       Suite de modules avancés exclusivement conçus pour Divi 5.
- * Version:           0.5.1
+ * Description:       Module FlipBox exclusivement conçu pour Divi 5.
+ * Version:           0.5.2
  * Requires at least: 6.4
  * Requires PHP:      8.1
  * Author:            Nicolas Galzy
@@ -20,7 +20,7 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-define('TMD5_VERSION', '0.5.1');
+define('TMD5_VERSION', '0.5.2');
 define('TMD5_FILE', __FILE__);
 define('TMD5_PATH', plugin_dir_path(__FILE__));
 define('TMD5_URL', plugin_dir_url(__FILE__));
