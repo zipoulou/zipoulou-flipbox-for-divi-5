@@ -52,6 +52,13 @@ function initClick(el: HTMLElement): void {
 }
 
 function initAuto(el: HTMLElement): void {
+  // Respect user's motion preferences — no automatic state changes if reduced.
+  const reduceMotion = typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) {
+    return;
+  }
+
   const intervalRaw = el.getAttribute('data-tmd-auto-interval');
   const ms = Math.max(300, parseIntervalMs(intervalRaw));
 
@@ -65,27 +72,26 @@ function initAuto(el: HTMLElement): void {
   el.addEventListener('focusout',  resume);
 
   const timerId = window.setInterval(() => {
+    // Defensive: bail if the node is no longer in the document (SPA / AJAX
+    // transitions can detach an ancestor without our cleanup observer seeing it).
+    if (!document.contains(el)) {
+      window.clearInterval(timerId);
+      return;
+    }
     if (paused) return;
     el.classList.toggle(FLIPPED_CLASS);
   }, ms);
 
   el.setAttribute(TIMER_ATTR, String(timerId));
 
-  // Clean up if the node is removed.
-  const cleanupObserver = new MutationObserver((mutations) => {
-    for (const m of mutations) {
-      for (const removed of Array.from(m.removedNodes)) {
-        if (removed === el || (removed instanceof HTMLElement && removed.contains(el))) {
-          window.clearInterval(timerId);
-          cleanupObserver.disconnect();
-          return;
-        }
-      }
+  // Belt-and-braces: watch the whole document for the node being removed from any depth.
+  const cleanupObserver = new MutationObserver(() => {
+    if (!document.contains(el)) {
+      window.clearInterval(timerId);
+      cleanupObserver.disconnect();
     }
   });
-  if (el.parentNode) {
-    cleanupObserver.observe(el.parentNode, { childList: true, subtree: true });
-  }
+  cleanupObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 function initFlipbox(el: HTMLElement): void {

@@ -35,11 +35,16 @@ trait RenderCallbackTrait
             // Divi icon format: "&#xHEX;||family||weight" — parse and render manually.
             $icon_raw = (string) ($media_inner['icon'] ?? '');
             $parts    = explode('||', $icon_raw);
-            $char_ent = $parts[0] ?? '';
+            $char_ent = $parts[0];
             $weight   = $parts[2] ?? '400';
-            $icon_color = $attrs['frontMedia']['advanced']['color']['desktop']['value'] ?? '';
 
-            $style_bits = ["font-weight:{$weight}"];
+            // Only allow numeric font-weights (100-900). Defend against style injection.
+            if (!preg_match('/^(100|200|300|400|500|600|700|800|900)$/', $weight)) {
+                $weight = '400';
+            }
+
+            $icon_color = $attrs['frontMedia']['advanced']['color']['desktop']['value'] ?? '';
+            $style_bits = ['font-weight:' . $weight];
             if ($icon_color) {
                 $style_bits[] = 'color:' . esc_attr($icon_color);
             }
@@ -60,7 +65,7 @@ trait RenderCallbackTrait
             $media_html = HTMLUtility::render([
                 'tag'        => 'img',
                 'attributes' => [
-                    'src'     => esc_url($src),
+                    'src'     => esc_url($src, ['http', 'https']),
                     'alt'     => $alt,
                     'loading' => 'lazy',
                 ],
@@ -96,15 +101,16 @@ trait RenderCallbackTrait
         $button_inner = $attrs['backButton']['innerContent']['desktop']['value'] ?? [];
         $button_text  = trim((string) ($button_inner['text'] ?? ''));
         if ($button_text !== '') {
-            $button_url    = $button_inner['url'] ?? '#';
-            $button_target = ($button_inner['target'] ?? 'off') === 'on' ? '_blank' : '';
+            $button_url      = (string) ($button_inner['url'] ?? '#');
+            $open_blank      = ($button_inner['target'] ?? 'off') === 'on';
+            $allowed_schemes = ['http', 'https', 'mailto', 'tel', '#'];
 
             $button_attrs = [
                 'class' => 'tmd5_flipbox__back-button',
-                'href'  => esc_url($button_url),
+                'href'  => esc_url($button_url, $allowed_schemes),
             ];
-            if ($button_target) {
-                $button_attrs['target'] = $button_target;
+            if ($open_blank) {
+                $button_attrs['target'] = '_blank';
                 $button_attrs['rel']    = 'noopener noreferrer';
             }
 

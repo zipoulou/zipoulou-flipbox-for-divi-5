@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.6] — 2026-04-20
+
+### Security
+- **Font-weight allowlist** in icon render — `$weight` parsed from the Divi icon format (`&#xHEX;||family||weight`) is now validated against a whitelist `100|200|…|900` before going into the inline `style` attribute. A malformed `weight` segment could previously allow attribute injection.
+- **`esc_url` with explicit scheme allowlist** on the back button URL (`http`, `https`, `mailto`, `tel`, `#`) — ensures valid non-http schemes aren't stripped silently, and blocks anything unusual by default.
+
+### Fixed
+- **Auto-trigger `setInterval` leak on SPA transitions** — the MutationObserver cleanup was scoped to `el.parentNode` which missed ancestor removals. Now observes `document.body` and additionally the timer callback itself bails out if the node is no longer in the document.
+- **`prefers-reduced-motion` honoured by auto-flip** — when the user has reduced-motion enabled, the auto timer is never started (CSS already disables transitions; this closes the JS side).
+- **Whitespace-only button text** no longer renders a ghost `<a>` in the VB — `edit.tsx` now trims like the PHP render does.
+- **`innerStyle` no longer relies on `as any` casts** — typed as `React.CSSProperties & Record<string, string>` so future typos surface at build time.
+
+---
+
 ## [0.7.5] — 2026-04-20
 
 ### Changed

@@ -20,7 +20,7 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
   const showImage   = !isUsingIcon && hasMediaSrc;
 
   const buttonAttr   = getAttrByMode(attrs?.backButton?.innerContent);
-  const buttonText   = buttonAttr?.text ?? '';
+  const buttonText   = (buttonAttr?.text ?? '').trim();
   const buttonUrl    = buttonAttr?.url ?? '#';
   const buttonTarget = 'on' === buttonAttr?.target ? '_blank' : undefined;
 
@@ -49,15 +49,15 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
     return (pct / 100).toString();
   })();
 
-  const innerStyle = {
-    ['--tmd-duration'     as any]: duration,
-    ['--tmd-aspect-ratio' as any]: aspectRatio,
-    ['--tmd-min-height'   as any]: minHeight,
-    ['--tmd-fixed-height' as any]: fixedHeight,
-    ['--tmd-media-fit'    as any]: fit,
-    ['--tmd-media-zoom'   as any]: zoomScale,
-    ['--tmd-media-position' as any]: objectPosition,
-  } as React.CSSProperties;
+  const innerStyle: React.CSSProperties & Record<string, string> = {
+    '--tmd-duration':        duration,
+    '--tmd-aspect-ratio':    aspectRatio,
+    '--tmd-min-height':      minHeight,
+    '--tmd-fixed-height':    fixedHeight,
+    '--tmd-media-fit':       fit,
+    '--tmd-media-zoom':      zoomScale,
+    '--tmd-media-position':  objectPosition,
+  };
 
   const showMedia = layout !== 'textOnly' && (showIcon || showImage);
   const showText  = layout !== 'mediaOnly';
