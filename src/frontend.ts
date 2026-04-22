@@ -29,16 +29,45 @@ function parseIntervalMs(raw: string | null): number {
   return unit === 'ms' ? value : value * 1000;
 }
 
-function initClick(el: HTMLElement): void {
+// autoReturnMs > 0 schedules an automatic un-flip `autoReturnMs` milliseconds
+// after the tile is flipped to the back side — matches the "peek" intent
+// that hover gives on desktop when there's no mouseleave equivalent (touch).
+// Interacting with the card again while it's flipped cancels the pending
+// return (user is reading); flipping back manually also cancels it.
+function initClick(el: HTMLElement, autoReturnMs: number = 0): void {
   if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
   if (!el.hasAttribute('role'))     el.setAttribute('role', 'button');
   updatePressed(el);
 
+  let autoReturnTimer: number | null = null;
+  const clearAutoReturn = (): void => {
+    if (autoReturnTimer !== null) {
+      window.clearTimeout(autoReturnTimer);
+      autoReturnTimer = null;
+    }
+  };
+  const scheduleAutoReturn = (): void => {
+    if (autoReturnMs <= 0) return;
+    clearAutoReturn();
+    autoReturnTimer = window.setTimeout(() => {
+      el.classList.remove(FLIPPED_CLASS);
+      updatePressed(el);
+      autoReturnTimer = null;
+    }, autoReturnMs);
+  };
+
+  const toggle = (): void => {
+    const wasFlipped = el.classList.contains(FLIPPED_CLASS);
+    el.classList.toggle(FLIPPED_CLASS);
+    updatePressed(el);
+    if (!wasFlipped) scheduleAutoReturn();
+    else clearAutoReturn();
+  };
+
   el.addEventListener('click', (event: MouseEvent): void => {
     const target = event.target as HTMLElement | null;
     if (target && target.closest('.tmd5_flipbox__back-button')) return;
-    el.classList.toggle(FLIPPED_CLASS);
-    updatePressed(el);
+    toggle();
   });
 
   el.addEventListener('keydown', (event: KeyboardEvent): void => {
@@ -46,8 +75,7 @@ function initClick(el: HTMLElement): void {
     const target = event.target as HTMLElement | null;
     if (target && target.closest('.tmd5_flipbox__back-button')) return;
     event.preventDefault();
-    el.classList.toggle(FLIPPED_CLASS);
-    updatePressed(el);
+    toggle();
   });
 }
 
@@ -176,8 +204,9 @@ function initFlipbox(el: HTMLElement): void {
   if (trigger === 'auto')   initAuto(el);
   // Touch fallback: on hover-triggered flipboxes, promote to click on
   // touch-only devices. CSS mixin already handles `.is-flipped` for any
-  // trigger, so toggling the class is enough.
-  if (trigger === 'hover' && isTouchOnly()) initClick(el);
+  // trigger, so toggling the class is enough. Auto-return after ~3.5 s
+  // emulates the mouseleave-driven un-flip that desktop hover provides.
+  if (trigger === 'hover' && isTouchOnly()) initClick(el, 3500);
 
   initWobble(el);
 }

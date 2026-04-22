@@ -18,6 +18,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
   - **On every mouseenter** on hover-capable devices (`(hover: hover) and (pointer: fine)`) so the cue is consistent each time the user interacts.
   Animation is tuned to 500 ms / ±6° so it fits inside the default flip transition (600 ms) — when trigger='hover' the wobble ends before the flip reaches its target and the computed transform hands off smoothly to the remaining transition instead of snapping. Fully disabled under `prefers-reduced-motion: reduce` and suppressed when the card is already in the flipped state.
 - New CSS hook `.tmd5_flipbox__hint` (position absolute, 28 × 28 px circle) and modifier `--topLeft|topRight|bottomLeft|bottomRight`. Hover styling upgrades background to purple-tinted on hover-capable devices.
+- **Touch auto-return (3.5 s)** — when a `trigger='hover'` flipbox is promoted to click-toggle behaviour on a touch-only device, the back side now auto-returns to the front after 3.5 s. Matches the "peek" intent of hover (mouseleave triggers un-flip on desktop) without leaving the visitor stranded on the back side. A second tap during the peek cancels the timer (user is reading); flipping back manually also cancels it. Explicit `trigger='click'` keeps its toggle-only behaviour — auto-return is scoped to the touch fallback path.
 
 ---
 
