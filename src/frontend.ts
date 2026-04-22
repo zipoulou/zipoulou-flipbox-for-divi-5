@@ -106,6 +106,47 @@ function isTouchOnly(): boolean {
   return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 }
 
+// One-shot wobble hint when the tile first enters the viewport. Triggered
+// only if data-tmd-wobble='1' and prefers-reduced-motion is not set.
+// Animation is 900ms; removing the class on `animationend` keeps the DOM
+// clean and prevents re-triggering on a second intersection.
+const WOBBLE_CLASS = 'tmd-wobble';
+const WOBBLE_DONE_ATTR = 'data-tmd-wobble-done';
+let wobbleObserver: IntersectionObserver | null = null;
+
+function getWobbleObserver(): IntersectionObserver | null {
+  if (typeof IntersectionObserver === 'undefined') return null;
+  if (wobbleObserver) return wobbleObserver;
+  wobbleObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      if (!entry.isIntersecting) continue;
+      const el = entry.target as HTMLElement;
+      if (el.getAttribute(WOBBLE_DONE_ATTR) === '1') continue;
+      // Don't wobble if the card is already flipped (e.g. via click trigger + prior state)
+      if (el.classList.contains('is-flipped')) continue;
+      el.setAttribute(WOBBLE_DONE_ATTR, '1');
+      el.classList.add(WOBBLE_CLASS);
+      const onEnd = () => {
+        el.classList.remove(WOBBLE_CLASS);
+        el.removeEventListener('animationend', onEnd);
+      };
+      el.addEventListener('animationend', onEnd);
+      wobbleObserver!.unobserve(el);
+    }
+  }, { threshold: 0.35 });
+  return wobbleObserver;
+}
+
+function initWobble(el: HTMLElement): void {
+  if (el.getAttribute('data-tmd-wobble') !== '1') return;
+  const reduce = typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+  const observer = getWobbleObserver();
+  if (!observer) return;
+  observer.observe(el);
+}
+
 function initFlipbox(el: HTMLElement): void {
   if (el.getAttribute(INIT_ATTR) === '1') return;
   el.setAttribute(INIT_ATTR, '1');
@@ -117,6 +158,8 @@ function initFlipbox(el: HTMLElement): void {
   // touch-only devices. CSS mixin already handles `.is-flipped` for any
   // trigger, so toggling the class is enough.
   if (trigger === 'hover' && isTouchOnly()) initClick(el);
+
+  initWobble(el);
 }
 
 function boot(): void {

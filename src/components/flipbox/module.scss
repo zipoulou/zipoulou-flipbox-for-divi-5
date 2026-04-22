@@ -384,6 +384,86 @@
       color: #8300e9;
     }
   }
+
+  // ======================================================================
+  //  HINT ICON (discoverability cue on the front face)
+  //
+  //  Small icon pinned to one of the four corners — signals "this tile is
+  //  interactive, flip it". Lives inside .tmd5_flipbox__front so it inherits
+  //  the `backface-visibility: hidden` rule and disappears when the card flips.
+  // ======================================================================
+  &__hint {
+    position: absolute;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.08);
+    color: #1a365d;
+    font-size: 14px;
+    line-height: 1;
+    pointer-events: none;
+    z-index: 3;
+    transition: background-color 0.2s ease, color 0.2s ease;
+
+    .tmd5_flipbox__hint-svg {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .et-pb-icon {
+      width: auto;
+      height: auto;
+      font-size: 14px;
+      line-height: 1;
+      color: inherit;
+    }
+
+    &--topLeft     { top: 12px; left: 12px; }
+    &--topRight    { top: 12px; right: 12px; }
+    &--bottomLeft  { bottom: 12px; left: 12px; }
+    &--bottomRight { bottom: 12px; right: 12px; }
+  }
+
+  // Slight highlight on hover/focus-within to reinforce interactivity
+  @media (hover: hover) and (pointer: fine) {
+    &:hover &__hint,
+    &:focus-within &__hint {
+      background: rgba(131, 0, 233, 0.15);
+      color: #8300e9;
+    }
+  }
+}
+
+// ======================================================================
+//  WOBBLE (one-shot hint animation on first viewport entry)
+//
+//  Applied by frontend.ts via the `.tmd-wobble` class when the tile
+//  first intersects the viewport and `data-tmd-wobble='1'`.
+//  `prefers-reduced-motion` disables the animation via the existing
+//  rule at the end of this file (transition: none !important) plus the
+//  guard in the JS itself.
+// ======================================================================
+@keyframes tmd5-wobble {
+  0%   { transform: none; }
+  15%  { transform: rotateY(-8deg); }
+  35%  { transform: rotateY(10deg); }
+  55%  { transform: rotateY(-6deg); }
+  75%  { transform: rotateY(4deg); }
+  100% { transform: none; }
+}
+
+.tmd5_flipbox__inner.tmd-wobble {
+  animation: tmd5-wobble 900ms cubic-bezier(0.4, 0, 0.2, 1) 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tmd5_flipbox__inner.tmd-wobble {
+    animation: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

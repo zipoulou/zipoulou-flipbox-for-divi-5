@@ -36,6 +36,10 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
   const aspectRatio  = flipboxAttr?.aspectRatio  ?? '4/3';
   const minHeight    = flipboxAttr?.minHeight    ?? '320px';
   const fixedHeight  = flipboxAttr?.fixedHeight  ?? '320px';
+  const hintEnabled  = (flipboxAttr?.hintEnabled  ?? 'on') === 'on';
+  const hintPosition = flipboxAttr?.hintPosition ?? 'bottomRight';
+  const hintIconRaw  = flipboxAttr?.hintIcon     ?? '';
+  const wobbleEnabled = (flipboxAttr?.wobbleEnabled ?? 'on') === 'on';
   const fitRaw       = getAttrByMode(attrs?.frontMedia?.advanced?.fit);
   const fit          = (typeof fitRaw === 'string' ? fitRaw : 'cover') || 'cover';
   const zoomRaw      = getAttrByMode(attrs?.frontMedia?.advanced?.zoom);
@@ -82,6 +86,7 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
         data-tmd-layout={layout}
         data-tmd-size-mode={sizeMode}
         data-tmd-auto-interval={autoInterval}
+        data-tmd-wobble={wobbleEnabled ? '1' : '0'}
         style={innerStyle}
       >
         <div className="tmd5_flipbox__front">
@@ -102,6 +107,35 @@ export const FlipboxEdit = (props: FlipboxEditProps): ReactElement => {
           {showText && elements.render({ attrName: 'frontSubtitle' })}
           {showText && elements.render({ attrName: 'frontTitle' })}
           {showText && elements.render({ attrName: 'frontContent' })}
+          {hintEnabled && (
+            <span
+              className={`tmd5_flipbox__hint tmd5_flipbox__hint--${hintPosition}`}
+              aria-hidden="true"
+            >
+              {hintIconRaw ? (
+                <span
+                  className="et-pb-icon"
+                  data-icon={hintIconRaw.split('||')[0]}
+                >
+                  {String.fromCodePoint(parseInt(
+                    (hintIconRaw.split('||')[0] || '').replace(/^&#x/, '').replace(/;$/, '') || '0',
+                    16,
+                  ) || 0) || ''}
+                </span>
+              ) : (
+                <svg className="tmd5_flipbox__hint-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5"
+                  />
+                </svg>
+              )}
+            </span>
+          )}
         </div>
         <div className="tmd5_flipbox__back">
           {elements.render({ attrName: 'backSubtitle' })}

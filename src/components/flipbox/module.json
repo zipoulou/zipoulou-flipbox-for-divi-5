@@ -262,6 +262,61 @@
                   "validUnits": ["px"]
                 }
               }
+            },
+            "hintEnabled": {
+              "groupSlug": "contentFlipboxHint",
+              "attrName": "flipbox.innerContent",
+              "subName": "hintEnabled",
+              "label": "Show Flip Hint Icon",
+              "description": "Display a small icon in a corner of the front tile so visitors know it can be flipped.",
+              "features": { "hover": false, "sticky": false, "responsive": false },
+              "render": true,
+              "priority": 80,
+              "component": { "type": "field", "name": "divi/toggle" }
+            },
+            "hintPosition": {
+              "groupSlug": "contentFlipboxHint",
+              "attrName": "flipbox.innerContent",
+              "subName": "hintPosition",
+              "label": "Hint Icon Position",
+              "description": "Corner of the front tile where the hint icon is placed.",
+              "features": { "hover": false, "sticky": false, "responsive": false },
+              "render": true,
+              "priority": 90,
+              "component": {
+                "type": "field",
+                "name": "divi/select",
+                "props": {
+                  "options": {
+                    "topLeft":     { "label": "Top Left" },
+                    "topRight":    { "label": "Top Right" },
+                    "bottomLeft":  { "label": "Bottom Left" },
+                    "bottomRight": { "label": "Bottom Right" }
+                  }
+                }
+              }
+            },
+            "hintIcon": {
+              "groupSlug": "contentFlipboxHint",
+              "attrName": "flipbox.innerContent",
+              "subName": "hintIcon",
+              "label": "Hint Icon",
+              "description": "Optional: choose a Divi icon. Leave empty to use the default circular-arrow glyph.",
+              "features": { "sticky": false },
+              "render": true,
+              "priority": 100,
+              "component": { "type": "field", "name": "divi/icon-picker" }
+            },
+            "wobbleEnabled": {
+              "groupSlug": "contentFlipboxHint",
+              "attrName": "flipbox.innerContent",
+              "subName": "wobbleEnabled",
+              "label": "Wobble On First View",
+              "description": "Play a short tilting animation the first time the tile enters the viewport, so visitors notice it's interactive. Respects prefers-reduced-motion.",
+              "features": { "hover": false, "sticky": false, "responsive": false },
+              "render": true,
+              "priority": 110,
+              "component": { "type": "field", "name": "divi/toggle" }
             }
           }
         }

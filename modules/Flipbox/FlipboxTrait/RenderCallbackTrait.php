@@ -86,11 +86,57 @@ trait RenderCallbackTrait
         $front_title    = $show_text ? $elements->render(['attrName' => 'frontTitle'])    : '';
         $front_content  = $show_text ? $elements->render(['attrName' => 'frontContent'])  : '';
 
+        // Hint icon (optional, positioned absolutely in a corner of the front face).
+        $hint_html    = '';
+        $hint_enabled = ($flipbox_settings['hintEnabled'] ?? 'on') === 'on';
+        if ($hint_enabled) {
+            $hint_position_raw = (string) ($flipbox_settings['hintPosition'] ?? 'bottomRight');
+            $allowed_positions = ['topLeft', 'topRight', 'bottomLeft', 'bottomRight'];
+            $hint_position     = in_array($hint_position_raw, $allowed_positions, true)
+                ? $hint_position_raw
+                : 'bottomRight';
+
+            $hint_icon_raw = (string) ($flipbox_settings['hintIcon'] ?? '');
+            $hint_icon_html = '';
+            if ($hint_icon_raw !== '') {
+                // Divi icon format: "&#xHEX;||family||weight"
+                $parts    = explode('||', $hint_icon_raw);
+                $char_ent = $parts[0];
+                $weight   = $parts[2] ?? '400';
+                if (!preg_match('/^(100|200|300|400|500|600|700|800|900)$/', $weight)) {
+                    $weight = '400';
+                }
+                $hint_icon_html = HTMLUtility::render([
+                    'tag'        => 'span',
+                    'attributes' => [
+                        'class'     => 'et-pb-icon',
+                        'data-icon' => $char_ent,
+                        'style'     => 'font-weight:' . $weight,
+                    ],
+                    'children'          => html_entity_decode($char_ent, ENT_QUOTES | ENT_HTML5, 'UTF-8'),
+                    'childrenSanitizer' => 'esc_html',
+                ]);
+            } else {
+                // Inline SVG fallback — circular arrow (↻). No font dependency.
+                $hint_icon_html = '<svg class="tmd5_flipbox__hint-svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5"/></svg>';
+            }
+
+            $hint_html = HTMLUtility::render([
+                'tag'               => 'span',
+                'attributes'        => [
+                    'class'        => 'tmd5_flipbox__hint tmd5_flipbox__hint--' . $hint_position,
+                    'aria-hidden'  => 'true',
+                ],
+                'childrenSanitizer' => 'et_core_esc_previously',
+                'children'          => $hint_icon_html,
+            ]);
+        }
+
         $front = HTMLUtility::render([
             'tag'               => 'div',
             'attributes'        => ['class' => 'tmd5_flipbox__front'],
             'childrenSanitizer' => 'et_core_esc_previously',
-            'children'          => $media_wrapper . $front_subtitle . $front_title . $front_content,
+            'children'          => $media_wrapper . $front_subtitle . $front_title . $front_content . $hint_html,
         ]);
 
         $back_subtitle = $elements->render(['attrName' => 'backSubtitle']);
@@ -163,6 +209,8 @@ trait RenderCallbackTrait
             esc_attr((string) $media_pos)
         );
 
+        $wobble_enabled = ($flipbox_settings['wobbleEnabled'] ?? 'on') === 'on';
+
         $inner = HTMLUtility::render([
             'tag'               => 'div',
             'attributes'        => [
@@ -174,6 +222,7 @@ trait RenderCallbackTrait
                 'data-tmd-layout'        => $layout,
                 'data-tmd-size-mode'     => $size_mode,
                 'data-tmd-auto-interval' => $auto_interval,
+                'data-tmd-wobble'        => $wobble_enabled ? '1' : '0',
                 'style'                  => $style_vars,
             ],
             'childrenSanitizer' => 'et_core_esc_previously',

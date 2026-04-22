@@ -5,6 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.8] — 2026-04-22
+
+### Added
+- **Flip hint icon** — small corner indicator on the front face so visitors understand the tile is interactive. Four new module settings under *FlipBox Settings → Hint* group:
+  - `hintEnabled` (toggle, default ON)
+  - `hintPosition` (topLeft / topRight / bottomLeft / bottomRight — default `bottomRight`)
+  - `hintIcon` (optional Divi icon — when empty, an inline SVG circular-arrow is used so no font dependency is required)
+  - `wobbleEnabled` (toggle, default ON)
+- **Wobble discovery animation** — `.tmd5_flipbox__inner` plays a 900 ms Y-axis rocking animation (`@keyframes tmd5-wobble`, peak ±10°) the first time it intersects the viewport. Triggered by `IntersectionObserver` at 35 % visibility; class is removed on `animationend` and `data-tmd-wobble-done="1"` prevents re-trigger. Fully disabled under `prefers-reduced-motion: reduce`.
+- New CSS hook `.tmd5_flipbox__hint` (position absolute, 28 × 28 px circle) and modifier `--topLeft|topRight|bottomLeft|bottomRight`. Hover styling upgrades background to purple-tinted on hover-capable devices.
+
+---
+
 ## [0.7.7] — 2026-04-22
 
 ### Fixed
