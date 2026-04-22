@@ -5,6 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
 
 ---
 
+## [0.7.7] — 2026-04-22
+
+### Fixed
+- **Sticky `:hover` on touch devices** — hover-triggered flipboxes previously latched on first tap and couldn't be un-flipped without tapping elsewhere on the page. Hover rules are now gated behind `@media (hover: hover) and (pointer: fine)`, and `frontend.ts` auto-binds a click handler on touch-only devices (`matchMedia('(hover: none) and (pointer: coarse)')`) so a tap toggles `.is-flipped`. Dual-input devices (laptops with touchscreens) keep the pure-CSS hover path.
+- **Mobile row stacking safety net** — on some Divi 5 pages the row flex container keeps `flex-direction: row` at phone breakpoints, which crams three flipboxes into ~90 px each. Added a scoped `@media (max-width: 767px)` rule using `:has(> .et_pb_column > .tmd5_flipbox)` that forces the parent `.et_pb_row` to `flex-direction: column` and each `.et_pb_column` to `width: 100%` — only when a flipbox is present. Graceful degradation on browsers without `:has()` support.
+- **`tmd-flipped` mixin simplified** — runtime `.is-flipped` selector is now trigger-agnostic (`[data-tmd-type='X'].is-flipped` instead of listing `click`/`auto` explicitly), so the touch click-fallback on hover-triggered flipboxes works without extra CSS.
+
+---
+
 ## [0.7.6] — 2026-04-20
 
 ### Security

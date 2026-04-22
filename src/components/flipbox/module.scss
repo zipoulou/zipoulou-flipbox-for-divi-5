@@ -5,13 +5,26 @@
 // @at-root is critical: without it, when this mixin is @included inside
 // `.tmd5_flipbox { ... }`, SCSS would prefix the selectors and produce broken
 // `.tmd5_flipbox .tmd5_flipbox:hover ...` (requires two nested flipboxes).
+//
+// Hover path is gated behind `@media (hover: hover) and (pointer: fine)` so
+// touch devices don't get the "sticky :hover" bug (first tap sets hover, second
+// tap anywhere else is required to clear it — cards would stay flipped).
+// On touch devices frontend.ts toggles `.is-flipped` on tap, covered by the
+// runtime-class selectors below (which match any trigger including 'hover').
 @mixin tmd-flipped($type) {
   @at-root {
-    .tmd5_flipbox:hover .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
-    .tmd5_flipbox:focus-within .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
-    .tmd5_flipbox__inner[data-tmd-trigger='click'][data-tmd-type='#{$type}'].is-flipped,
-    .tmd5_flipbox__inner[data-tmd-trigger='auto'][data-tmd-type='#{$type}'].is-flipped {
+    // Always-on: click / auto triggers flip via JS-added `.is-flipped`.
+    // `.is-flipped` also used by the touch fallback wired in frontend.ts
+    // when trigger='hover' on a device without real hover.
+    .tmd5_flipbox__inner[data-tmd-type='#{$type}'].is-flipped {
       @content;
+    }
+    // Hover-capable devices only — pure CSS, no JS needed.
+    @media (hover: hover) and (pointer: fine) {
+      .tmd5_flipbox:hover .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'],
+      .tmd5_flipbox:focus-within .tmd5_flipbox__inner[data-tmd-trigger='hover'][data-tmd-type='#{$type}'] {
+        @content;
+      }
     }
   }
 }
@@ -378,5 +391,26 @@
   .tmd5_flipbox__front,
   .tmd5_flipbox__back {
     transition: none !important;
+  }
+}
+
+// --------------------------------------------------------------------------
+// Mobile stacking safety net (Divi 5 rows)
+//
+// On some Divi 5 pages the row's flex-direction isn't flipped to column on
+// phone, which leaves 3 flipboxes crammed side-by-side in a 300px viewport
+// (each column ≈ 90px wide — unreadable). The row CSS has all the right
+// classes (et_flex_column_24_24_phone with width:100%) but it's ineffective
+// because the flex container itself stays horizontal and `flex-shrink: 1`
+// collapses the children back to 33% each.
+//
+// `:has()` support: Safari 15.4+, Chrome 105+, Firefox 121+ — browsers
+// without `:has()` silently ignore this rule (graceful degradation).
+@media (max-width: 767px) {
+  .et_pb_row:has(> .et_pb_column > .tmd5_flipbox) {
+    flex-direction: column !important;
+  }
+  .et_pb_row:has(> .et_pb_column > .tmd5_flipbox) > .et_pb_column {
+    width: 100% !important;
   }
 }

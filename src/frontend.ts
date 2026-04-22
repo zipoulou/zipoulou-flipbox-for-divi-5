@@ -94,6 +94,18 @@ function initAuto(el: HTMLElement): void {
   cleanupObserver.observe(document.body, { childList: true, subtree: true });
 }
 
+// Detect a touch-primary device (no hover + coarse pointer). Used to fall
+// back to click behaviour for hover-triggered flipboxes, since `:hover` is
+// sticky on touch (first tap latches hover, can't be cleared by tapping the
+// card itself). Dual-input devices (laptop + touchscreen) report
+// `hover: hover` as their primary input and take the pure-CSS hover path.
+function isTouchOnly(): boolean {
+  if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+    return false;
+  }
+  return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+}
+
 function initFlipbox(el: HTMLElement): void {
   if (el.getAttribute(INIT_ATTR) === '1') return;
   el.setAttribute(INIT_ATTR, '1');
@@ -101,6 +113,10 @@ function initFlipbox(el: HTMLElement): void {
   const trigger = el.getAttribute('data-tmd-trigger') ?? 'hover';
   if (trigger === 'click')  initClick(el);
   if (trigger === 'auto')   initAuto(el);
+  // Touch fallback: on hover-triggered flipboxes, promote to click on
+  // touch-only devices. CSS mixin already handles `.is-flipped` for any
+  // trigger, so toggling the class is enough.
+  if (trigger === 'hover' && isTouchOnly()) initClick(el);
 }
 
 function boot(): void {
