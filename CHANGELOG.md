@@ -13,7 +13,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/) · Versioning: [Semantic
   - `hintPosition` (topLeft / topRight / bottomLeft / bottomRight — default `bottomRight`)
   - `hintIcon` (optional Divi icon — when empty, an inline SVG circular-arrow is used so no font dependency is required)
   - `wobbleEnabled` (toggle, default ON)
-- **Wobble discovery animation** — `.tmd5_flipbox__inner` plays a 900 ms Y-axis rocking animation (`@keyframes tmd5-wobble`, peak ±10°) the first time it intersects the viewport. Triggered by `IntersectionObserver` at 35 % visibility; class is removed on `animationend` and `data-tmd-wobble-done="1"` prevents re-trigger. Fully disabled under `prefers-reduced-motion: reduce`.
+- **Wobble hint animation** — two trigger sources:
+  - **First viewport entry** (once per page session) via `IntersectionObserver` at 35 % visibility
+  - **On every mouseenter** on hover-capable devices (`(hover: hover) and (pointer: fine)`) so the cue is consistent each time the user interacts.
+  Animation is tuned to 500 ms / ±6° so it fits inside the default flip transition (600 ms) — when trigger='hover' the wobble ends before the flip reaches its target and the computed transform hands off smoothly to the remaining transition instead of snapping. Fully disabled under `prefers-reduced-motion: reduce` and suppressed when the card is already in the flipped state.
 - New CSS hook `.tmd5_flipbox__hint` (position absolute, 28 × 28 px circle) and modifier `--topLeft|topRight|bottomLeft|bottomRight`. Hover styling upgrades background to purple-tinted on hover-capable devices.
 
 ---

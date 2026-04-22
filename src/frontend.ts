@@ -106,13 +106,21 @@ function isTouchOnly(): boolean {
   return window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 }
 
-// One-shot wobble hint when the tile first enters the viewport. Triggered
-// only if data-tmd-wobble='1' and prefers-reduced-motion is not set.
-// Animation is 900ms; removing the class on `animationend` keeps the DOM
-// clean and prevents re-triggering on a second intersection.
+// Wobble hint — two trigger sources:
+//   1) IntersectionObserver: fires once per session on first viewport entry
+//   2) mouseenter (hover-capable devices only): fires on every hover so the
+//      user gets a consistent "this rotates" cue each time they interact.
+// Animation is 900ms; `animationend` removes the class so it can replay.
+// Skipped under prefers-reduced-motion and when the card is currently flipped.
 const WOBBLE_CLASS = 'tmd-wobble';
 const WOBBLE_DONE_ATTR = 'data-tmd-wobble-done';
 let wobbleObserver: IntersectionObserver | null = null;
+
+function playWobble(el: HTMLElement): void {
+  if (el.classList.contains(WOBBLE_CLASS)) return;
+  if (el.classList.contains('is-flipped')) return;
+  el.classList.add(WOBBLE_CLASS);
+}
 
 function getWobbleObserver(): IntersectionObserver | null {
   if (typeof IntersectionObserver === 'undefined') return null;
@@ -122,15 +130,8 @@ function getWobbleObserver(): IntersectionObserver | null {
       if (!entry.isIntersecting) continue;
       const el = entry.target as HTMLElement;
       if (el.getAttribute(WOBBLE_DONE_ATTR) === '1') continue;
-      // Don't wobble if the card is already flipped (e.g. via click trigger + prior state)
-      if (el.classList.contains('is-flipped')) continue;
       el.setAttribute(WOBBLE_DONE_ATTR, '1');
-      el.classList.add(WOBBLE_CLASS);
-      const onEnd = () => {
-        el.classList.remove(WOBBLE_CLASS);
-        el.removeEventListener('animationend', onEnd);
-      };
-      el.addEventListener('animationend', onEnd);
+      playWobble(el);
       wobbleObserver!.unobserve(el);
     }
   }, { threshold: 0.35 });
@@ -142,9 +143,28 @@ function initWobble(el: HTMLElement): void {
   const reduce = typeof window.matchMedia === 'function'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) return;
+
+  // Self-cleanup on animationend so the class can be re-added for replays.
+  el.addEventListener('animationend', (ev) => {
+    if ((ev as AnimationEvent).animationName === 'tmd5-wobble') {
+      el.classList.remove(WOBBLE_CLASS);
+    }
+  });
+
   const observer = getWobbleObserver();
-  if (!observer) return;
-  observer.observe(el);
+  if (observer) observer.observe(el);
+
+  // Mouse-driven replay on every hover — reinforces "this rotates" each
+  // time the user interacts. Wobble duration (500ms) is intentionally
+  // kept under the default flip duration (600ms) so that when a
+  // hover-triggered flip also fires, the wobble ends before the flip
+  // transition reaches its target — the computed transform hands off
+  // smoothly to the remaining transition instead of snapping.
+  const hoverCapable = typeof window.matchMedia === 'function'
+    && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  if (hoverCapable) {
+    el.addEventListener('mouseenter', () => playWobble(el));
+  }
 }
 
 function initFlipbox(el: HTMLElement): void {

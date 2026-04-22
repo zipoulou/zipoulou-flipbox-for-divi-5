@@ -439,25 +439,27 @@
 }
 
 // ======================================================================
-//  WOBBLE (one-shot hint animation on first viewport entry)
+//  WOBBLE (subtle rocking hint animation)
 //
 //  Applied by frontend.ts via the `.tmd-wobble` class when the tile
-//  first intersects the viewport and `data-tmd-wobble='1'`.
-//  `prefers-reduced-motion` disables the animation via the existing
-//  rule at the end of this file (transition: none !important) plus the
-//  guard in the JS itself.
+//  first intersects the viewport OR on every mouseenter (hover-capable
+//  devices only). Duration is intentionally kept under the default flip
+//  duration (600 ms) so that when a hover-triggered flip runs in parallel,
+//  the wobble keyframes hand off cleanly into the remaining flip
+//  transition without a visual snap.
+//  Amplitude reduced to ±6° so it reads as a gentle hint rather than a
+//  competing animation when layered over the full flip.
 // ======================================================================
 @keyframes tmd5-wobble {
   0%   { transform: none; }
-  15%  { transform: rotateY(-8deg); }
-  35%  { transform: rotateY(10deg); }
-  55%  { transform: rotateY(-6deg); }
-  75%  { transform: rotateY(4deg); }
+  20%  { transform: rotateY(-6deg); }
+  50%  { transform: rotateY(5deg); }
+  80%  { transform: rotateY(-3deg); }
   100% { transform: none; }
 }
 
 .tmd5_flipbox__inner.tmd-wobble {
-  animation: tmd5-wobble 900ms cubic-bezier(0.4, 0, 0.2, 1) 1;
+  animation: tmd5-wobble 500ms cubic-bezier(0.4, 0, 0.2, 1) 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
