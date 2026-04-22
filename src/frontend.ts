@@ -166,7 +166,7 @@ function getWobbleObserver(): IntersectionObserver | null {
   return wobbleObserver;
 }
 
-function initWobble(el: HTMLElement): void {
+function initWobble(el: HTMLElement, trigger: string): void {
   if (el.getAttribute('data-tmd-wobble') !== '1') return;
   const reduce = typeof window.matchMedia === 'function'
     && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -182,15 +182,14 @@ function initWobble(el: HTMLElement): void {
   const observer = getWobbleObserver();
   if (observer) observer.observe(el);
 
-  // Mouse-driven replay on every hover — reinforces "this rotates" each
-  // time the user interacts. Wobble duration (500ms) is intentionally
-  // kept under the default flip duration (600ms) so that when a
-  // hover-triggered flip also fires, the wobble ends before the flip
-  // transition reaches its target — the computed transform hands off
-  // smoothly to the remaining transition instead of snapping.
+  // Mouse-driven replay on every hover is useful for click/auto triggers
+  // (no other hover feedback on those). For trigger='hover', skip it —
+  // the hover already drives the full flip via CSS, and layering the
+  // wobble keyframes on top produces a visible snap when the animation
+  // ends and the transition jumps to its target value.
   const hoverCapable = typeof window.matchMedia === 'function'
     && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if (hoverCapable) {
+  if (hoverCapable && trigger !== 'hover') {
     el.addEventListener('mouseenter', () => playWobble(el));
   }
 }
@@ -202,13 +201,13 @@ function initFlipbox(el: HTMLElement): void {
   const trigger = el.getAttribute('data-tmd-trigger') ?? 'hover';
   if (trigger === 'click')  initClick(el);
   if (trigger === 'auto')   initAuto(el);
-  // Touch fallback: on hover-triggered flipboxes, promote to click on
-  // touch-only devices. CSS mixin already handles `.is-flipped` for any
-  // trigger, so toggling the class is enough. Auto-return after ~3.5 s
-  // emulates the mouseleave-driven un-flip that desktop hover provides.
-  if (trigger === 'hover' && isTouchOnly()) initClick(el, 3500);
+  // Touch fallback: on hover-triggered flipboxes, promote to plain
+  // click-toggle on touch-only devices. No auto-return — a second tap
+  // flips back. (Earlier versions auto-returned after 3.5 s to emulate
+  // mouseleave, but the surprise motion was reported as confusing.)
+  if (trigger === 'hover' && isTouchOnly()) initClick(el);
 
-  initWobble(el);
+  initWobble(el, trigger);
 }
 
 function boot(): void {
